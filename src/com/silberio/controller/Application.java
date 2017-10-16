@@ -6,17 +6,16 @@ public class Application {
 	public static void main(String[] args) {
 		DatabaseConnection connection = DatabaseConnection.getInstance();
 
-		PatientLogging logging = PatientLogging.getInstance();
-
-		connection.establishConnectionToDatabase();
-		connection.retrieveColletion("PatientCollection");
+		DoctorLogging logging = DoctorLogging.getInstance();
+//
+//		connection.establishConnectionToDatabase();
+//		connection.retrieveColletion("DoctorCollection");
 
 		// To add a new file, setNewPatientDocument() in logging class, pass a
 		// connection and patient details. You have to retrieve a collectoin first through connection class retrieveCollection.
-		logging.createNewPatient();
-		logging.patientObjectToDocument(logging.getPatient());
-		logging.insertNewPatientDocument(connection.getCollection(), logging.getPatientDocument());
-
+//		logging.createLoggingObject();
+//		logging.doctorObjectToDocument(logging.getDoctorObject());
+//		logging.insertDocument(connection.getCollection(), logging.getDoctorDocument());
 
 		//
 		// System.out.println(roger.toString());

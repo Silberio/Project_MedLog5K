@@ -2,9 +2,6 @@ package com.silberio.view;
 
 import java.util.Scanner;
 
-import com.silberio.controller.PatientLogging;
-import com.silberio.model.EmptyStringException;
-
 /**
  * Class containing methods for user interface. Currently only a scanner method
  * userInput(); to store user input locally, and a getter for said input.

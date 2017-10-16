@@ -104,6 +104,19 @@ public class DatabaseConnection {
 		System.out.println("Collection " + collection + " created succesfully");
 
 	}
+	
+	/**
+	 * inserts a document into a collection
+	 * 
+	 * @param collection
+	 * @param document
+	 */
+	public void insertDocument(MongoCollection<Document> collection, Document document) {
+
+		collection.insertOne(document);
+		// insert this into the right collection
+		// i think the problem is that the coll
+	}
 
 	/**
 	 * Retrieves a MongoDB collection from the database
@@ -112,4 +125,5 @@ public class DatabaseConnection {
 	public MongoCollection<Document> getCollection() {
 		return collection;
 	}
+
 }

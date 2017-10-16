@@ -1,5 +1,10 @@
 package com.silberio.model;
 
+/**
+ * 
+ * @author silberio_stalone
+ *
+ */
 public class PatientObject {
 	private String firstName;
 	private String lastName;
@@ -86,7 +91,7 @@ public class PatientObject {
 	 * @return the precription log for a given patient
 	 */
 	public String getPrescription() {
-		String str = "Prescribed: " + prescription + "\n" + prescriptionReason;
+		String str = "Prescribed: " + prescription + ". " + prescriptionReason;
 		return str;
 	}
 

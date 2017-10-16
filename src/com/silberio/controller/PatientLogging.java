@@ -2,7 +2,6 @@ package com.silberio.controller;
 
 import org.bson.Document;
 
-import com.mongodb.client.MongoCollection;
 import com.silberio.model.PatientObject;
 import com.silberio.view.UserInterfaceMethods;
 
@@ -15,11 +14,12 @@ import com.silberio.view.UserInterfaceMethods;
  * @author silberio_stalone
  *
  */
-public class PatientLogging {
+public class PatientLogging extends Logging {
 
 	private static PatientLogging instance = null;
 
-	private PatientObject newPatient= new PatientObject();
+	private PatientObject newPatient = new PatientObject();
+
 	private Document patientDocument;
 
 	private String patientID;
@@ -40,7 +40,8 @@ public class PatientLogging {
 	/**
 	 * creates a new patient and inserts attributes from user
 	 */
-	public void createNewPatient() {
+	@Override
+	public void createLoggingObject() {
 		UserInterfaceMethods ui = new UserInterfaceMethods();
 
 		ui.userInput("doctor last name");
@@ -59,51 +60,35 @@ public class PatientLogging {
 		newPatient.setPrescription(ui.getInput());
 		ui.userInput("reason for prescription");
 		newPatient.setReason(ui.getInput());
-		
+
 		System.out.println(newPatient.toString());
-		}
+
+	}
 
 	/**
-	 * creates a new patient document
+	 * Takes in a patient object and sets it into a MongoDB document
 	 * 
-	 * @param firstName
-	 * @param lastName
-	 * @param address
-	 * @param DoB
-	 * @param telephone
-	 * @param log
-	 * @param prescription
-	 * @param reason
+	 * @param patient
+	 *            the patient object to input into database
 	 */
-	public void insertNewPatientDocument(MongoCollection<Document> collection, Document patientDocument) {
-		
-		collection.insertOne(patientDocument);
-		// insert this into the right collection
-		// i think the problem is that the coll
-	}
-	
 	public void patientObjectToDocument(PatientObject patient) {
-		
+
 		documentTitle = "Patient" + patient.getLastName() + patient.getFirstName();
 		patientID = "id" + patient.getLastName() + patient.getDateOfBirth();
 
-		patientDocument = new Document("title", documentTitle)
-				.append("id", patientID)
-				.append("first_name", patient.getFirstName())
-				.append("last_name", patient.getLastName())
-				.append("address", patient.getAddress())
-				.append("DoB", patient.getDateOfBirth())
-				.append("phone", patient.getTelephone())
-				.append("patient_log", patient.getPatientLog())
+		patientDocument = new Document("title", documentTitle).append("id", patientID)
+				.append("first_name", patient.getFirstName()).append("last_name", patient.getLastName())
+				.append("address", patient.getAddress()).append("DoB", patient.getDateOfBirth())
+				.append("phone", patient.getTelephone()).append("patient_log", patient.getPatientLog())
 				.append("prescription", patient.getPrescription());
-		
+
 		System.out.println("Patient file created succesfully!");
 	}
 
 	public Document getPatientDocument() {
 		return patientDocument;
 	}
-	
+
 	public PatientObject getPatient() {
 		return newPatient;
 	}
