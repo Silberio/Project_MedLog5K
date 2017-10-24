@@ -16,6 +16,10 @@ public class InputField extends JTextField {
 		this.setColumns(15);
 		this.id = fieldId;
 	}
+	
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public String getId() {
 		return id;

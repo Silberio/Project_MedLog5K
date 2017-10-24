@@ -31,7 +31,8 @@ public class InputPanel extends JPanel {
 	}
 	
 	private Color medLogTan = new Color(232, 192, 132);
-	private JTextField inputField = null;
+	private InputField inputField = null;
+	private InputField nameField, addressField, dobField, phoneField;
 	private JButton inputBtn = new JButton("Input Info");
 	private JLabel label = null;
 	
@@ -53,28 +54,28 @@ public class InputPanel extends JPanel {
 		this.add(label = new JLabel("Name: "), gbc);
 		gbc.gridx = 1;
 		gbc.gridy = 0;
-		this.add(inputField = new InputField("name"), gbc);
+		this.add(nameField = new InputField("name"), gbc);
 
 		gbc.gridx = 0;
 		gbc.gridy = 1;
 		this.add(label = new JLabel("Address: "), gbc);
 		gbc.gridx = 1;
 		gbc.gridy = 1;
-		this.add(inputField = new InputField("address"), gbc);
+		this.add(addressField = new InputField("address"), gbc);
 
 		gbc.gridx = 0;
 		gbc.gridy = 2;
 		this.add(label = new JLabel("D.o.B.: "), gbc);
 		gbc.gridx = 1;
 		gbc.gridy = 2;
-		this.add(inputField = new InputField("dob"), gbc);
+		this.add(dobField = new InputField("dob"), gbc);
 
 		gbc.gridx = 0;
 		gbc.gridy = 3;
 		this.add(label = new JLabel("Telephone: "), gbc);
 		gbc.gridx = 1;
 		gbc.gridy = 3;
-		this.add(inputField = new InputField("phone"), gbc);
+		this.add(phoneField = new InputField("phone"), gbc);
 		
 		gbc.insets = new Insets(20, 0, 0, 0);
 		gbc.weighty = 10;
@@ -83,6 +84,13 @@ public class InputPanel extends JPanel {
 		this.add(inputBtn, gbc);
 		
 	}
+	
+	public String getFieldContent(String fieldId) {
+		inputField.setId(fieldId);
+		String input = inputField.getText();
+		return input;
+	}
+	
 
 	public JButton getInputBtn() {
 		return inputBtn;
@@ -96,10 +104,50 @@ public class InputPanel extends JPanel {
 		
 		return inputField;
 	}
+	
+	/*
+	 * 
+	 * GETTERS & SETTERS
+	 * 
+	 */
 
-	public void setInputField(JTextField inputField) {
+	public void setInputField(InputField inputField) {
 		this.inputField = inputField;
 	}
+
+	public InputField getNameField() {
+		return nameField;
+	}
+
+	public void setNameField(InputField nameField) {
+		this.nameField = nameField;
+	}
+
+	public InputField getAddressField() {
+		return addressField;
+	}
+
+	public void setAddressField(InputField addressField) {
+		this.addressField = addressField;
+	}
+
+	public InputField getDobField() {
+		return dobField;
+	}
+
+	public void setDobField(InputField dobField) {
+		this.dobField = dobField;
+	}
+
+	public InputField getPhoneField() {
+		return phoneField;
+	}
+
+	public void setPhoneField(InputField phoneField) {
+		this.phoneField = phoneField;
+	}
+	
+	
 	
 	
 	

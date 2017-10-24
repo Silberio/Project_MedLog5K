@@ -26,9 +26,9 @@ public class MainGUIWindow {
 	private JPanel panelEast;
 
 	private JPanel buttonPanel = new JPanel();
-	private JPanel infoPanel = new PatientFileDisplay();
+	private PatientFileDisplay infoPanel = new PatientFileDisplay();
 
-	private Color medLogTan = new Color(232, 192, 132);
+	private final Color MEDLOGTAN = new Color(232, 192, 132);
 
 	public MainGUIWindow() {
 		initGUI();
@@ -40,23 +40,27 @@ public class MainGUIWindow {
 		panelWest = new JPanel();
 		panelEast = new JPanel();
 
-		buttonPanel.setBackground(medLogTan);
+		buttonPanel.setBackground(MEDLOGTAN);
+		inputToOuput();
 	}
 
 	private void inputToOuput() {
 		JButton btn;
 		btn = inputPanel.getInputBtn();
-		
+
 		btn.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				inputPanel.getInputField();
-				
+				infoPanel.displayInfo(
+						inputPanel.getNameField().getText(), 
+						inputPanel.getAddressField().getText(),
+						inputPanel.getDobField().getText(), 
+						inputPanel.getPhoneField().getText());
+
 			}
 		});
-		
-		
+
 	}
 
 	/**
@@ -65,10 +69,10 @@ public class MainGUIWindow {
 	private void launchFrame() {
 
 		panelWest.add(inputPanel);
-		panelWest.setBackground(medLogTan);
+		panelWest.setBackground(MEDLOGTAN);
 
 		panelEast.add(infoPanel);
-		panelEast.setBackground(medLogTan);
+		panelEast.setBackground(MEDLOGTAN);
 
 		frame.add(panelWest, BorderLayout.WEST);
 		frame.add(panelEast, BorderLayout.EAST);

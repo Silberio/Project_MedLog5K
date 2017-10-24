@@ -1,5 +1,7 @@
 package com.silberio.controller;
 import com.silberio.model.DatabaseConnection;
+import com.silberio.model.PatientObject;
+import com.silberio.model.PatientQueue;
 import com.silberio.view.UserInterfaceMethods;
 
 public class LogSystem {
@@ -21,6 +23,10 @@ public class LogSystem {
 	private DoctorLogging docLog = DoctorLogging.getInstance();
 	private PatientLogging patLog = PatientLogging.getInstance();
 	private UserInterfaceMethods ui = UserInterfaceMethods.getInstance(); 
+	
+	private PatientQueue patQueue;
+	private PatientObject patient;
+	
 	/*
 	 * MAINFRAME SYSTEM
 	 */
@@ -36,18 +42,10 @@ public class LogSystem {
 	public void printDocuments() {
 		ui.printDocuments(connection, "PatientCollection");
 	}
-
-
-
-	// To add a new file, setNewPatientDocument() in logging class, pass a
-	// connection and patient details. You have to retrieve a collectoin first through connection class retrieveCollection.
-//	logging.createLoggingObject();
-//	logging.doctorObjectToDocument(logging.getDoctorObject());
-//	logging.insertDocument(connection.getCollection(), logging.getDoctorDocument());
-
-	//
-	// System.out.println(roger.toString());
-	// System.out.println(roger.getPatientLog() + "\n" + roger.getPrescription());
 	
+	public void initQueueSystem() {
+		patQueue = new PatientQueue();
+		}
+
 	
 }

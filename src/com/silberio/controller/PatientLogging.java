@@ -83,6 +83,8 @@ public class PatientLogging extends Logging {
 		System.out.println(patient.toString());
 
 	}
+	
+	
 
 	/**
 	 * Takes in a patient object and sets it into a MongoDB document

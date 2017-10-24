@@ -4,14 +4,16 @@ import java.io.Serializable;
 
 /**
  * A patient object
+ * 
  * @author silberio_stalone
  *
  */
-public class PatientObject implements Serializable {
+public class PatientObject implements Serializable, Comparable<PatientObject> {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private int id;
 	private String firstName;
 	private String lastName;
 	private String address;
@@ -82,10 +84,12 @@ public class PatientObject implements Serializable {
 	public void setPrescription(String prescription) {
 		this.prescription = prescription;
 	}
-	
+
 	/**
 	 * Stores a short reason for prescribing a medication
-	 * @param reason short reason
+	 * 
+	 * @param reason
+	 *            short reason
 	 */
 	public void setReason(String reason) {
 		this.prescriptionReason = reason;
@@ -120,9 +124,17 @@ public class PatientObject implements Serializable {
 	public String getSignedBy() {
 		return signedBy;
 	}
+
 	/*
 	 * GETTERS AND SETTERS
 	 */
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public String getFirstName() {
 		return firstName;
@@ -171,6 +183,12 @@ public class PatientObject implements Serializable {
 	public String toString() {
 		String str = "Patient: " + lastName + ", " + firstName + ". Signed by: " + signedBy;
 		return str;
+	}
+
+	@Override
+	public int compareTo(PatientObject patient) {
+		
+		return (this.id - patient.getId());
 	}
 
 }
