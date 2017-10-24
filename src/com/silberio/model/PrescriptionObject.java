@@ -1,6 +1,8 @@
 package com.silberio.model;
 
-public class PrescriptionObject {
+import java.io.Serializable;
+
+public class PrescriptionObject implements Serializable {
 	private String medicationName;
 	private String medicationReason;
 	private String medicationDosage;

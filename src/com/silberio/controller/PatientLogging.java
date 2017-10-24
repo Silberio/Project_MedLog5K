@@ -2,14 +2,33 @@ package com.silberio.controller;
 
 import org.bson.Document;
 
+import com.silberio.model.DoctorObject;
 import com.silberio.model.PatientObject;
 import com.silberio.view.UserInterfaceMethods;
 
 /**
- * Class containing methods for patient logging.
+ * Class containing methods for logging patients to their respective mongoDB
+ * collection
  * <p>
- * This class will be used solely for creating and manipulating patient files.
+ * This class extends abstract class <b>Logging</b> and makes use of the
+ * abstract method <b>createLoggingObject</b>, which receives an entity, in this
+ * case a doctor, which it stores as an object.
  * </p>
+ * <p>
+ * these objects can later be manipulated and made into MongoDB documents.
+ * <b>Logging</b> has the method <i>insertDocument</i> which is implemented
+ * here.
+ * </p>
+ *
+ * <ul>
+ * <b>Methods:</b>
+ * <li><b>getInstance();</b> initiates a single instance of PatientLogging</li>
+ * </ul>
+ * <li><b>createLoggingObject()</b> creates an object that'll go into the
+ * logging system</li>
+ * <li><b>patientObjectToDocument()</b> turns object into a document to be
+ * inserted or manipulated by MongoDB</li>
+ * <li><b>Getters and Setters</b> for patient object and document</li>
  * 
  * @author silberio_stalone
  *
@@ -18,7 +37,7 @@ public class PatientLogging extends Logging {
 
 	private static PatientLogging instance = null;
 
-	private PatientObject newPatient = new PatientObject();
+	private PatientObject patient;
 
 	private Document patientDocument;
 
@@ -45,23 +64,23 @@ public class PatientLogging extends Logging {
 		UserInterfaceMethods ui = new UserInterfaceMethods();
 
 		ui.userInput("doctor last name");
-		newPatient.doctorSignature(ui.getInput());
+		patient.doctorSignature(ui.getInput());
 		ui.userInput("first name");
-		newPatient.setFirstName(ui.getInput());
+		patient.setFirstName(ui.getInput());
 		ui.userInput("last name");
-		newPatient.setLastName(ui.getInput());
+		patient.setLastName(ui.getInput());
 		ui.userInput("address");
-		newPatient.setAddress(ui.getInput());
+		patient.setAddress(ui.getInput());
 		ui.userInput("DoB");
-		newPatient.setDateOfBirth("date of birth");
+		patient.setDateOfBirth("date of birth");
 		ui.userInput("patient log");
-		newPatient.setPatientLog(ui.getInput());
+		patient.setPatientLog(ui.getInput());
 		ui.userInput("medication name");
-		newPatient.setPrescription(ui.getInput());
+		patient.setPrescription(ui.getInput());
 		ui.userInput("reason for prescription");
-		newPatient.setReason(ui.getInput());
+		patient.setReason(ui.getInput());
 
-		System.out.println(newPatient.toString());
+		System.out.println(patient.toString());
 
 	}
 
@@ -71,15 +90,20 @@ public class PatientLogging extends Logging {
 	 * @param patient
 	 *            the patient object to input into database
 	 */
-	public void patientObjectToDocument(PatientObject patient) {
+	@Override
+	public void objectToDocument() {
 
 		documentTitle = "Patient" + patient.getLastName() + patient.getFirstName();
-		patientID = "id" + patient.getLastName() + patient.getDateOfBirth();
+		patientID = "id" + patient.getLastName() + patient.getFirstName();
 
-		patientDocument = new Document("title", documentTitle).append("id", patientID)
-				.append("first_name", patient.getFirstName()).append("last_name", patient.getLastName())
-				.append("address", patient.getAddress()).append("DoB", patient.getDateOfBirth())
-				.append("phone", patient.getTelephone()).append("patient_log", patient.getPatientLog())
+		patientDocument = new Document("title", documentTitle)
+				.append("id", patientID)
+				.append("first_name", patient.getFirstName())
+				.append("last_name", patient.getLastName())
+				.append("address", patient.getAddress())
+				.append("DoB", patient.getDateOfBirth())
+				.append("phone", patient.getTelephone())
+				.append("patient_log", patient.getPatientLog())
 				.append("prescription", patient.getPrescription());
 
 		System.out.println("Patient file created succesfully!");
@@ -90,7 +114,11 @@ public class PatientLogging extends Logging {
 	}
 
 	public PatientObject getPatient() {
-		return newPatient;
+		return patient;
+	}
+
+	public void setPatient(PatientObject patient) {
+		this.patient = patient;
 	}
 
 }

@@ -1,12 +1,13 @@
 package com.silberio.model;
 
+import java.io.Serializable;
+
 import org.bson.Document;
 
 import com.mongodb.MongoClient;
 import com.mongodb.MongoCredential;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.silberio.controller.PatientLogging;
 
 /**
  * Singleton class for instantiating connection to server.
@@ -14,7 +15,7 @@ import com.silberio.controller.PatientLogging;
  * @author silberio_stalone
  *
  */
-public class DatabaseConnection {
+public class DatabaseConnection implements Serializable {
 
 	private static DatabaseConnection instance = null;
 
@@ -74,15 +75,16 @@ public class DatabaseConnection {
 	 *            Exception still untested
 	 *            </p>
 	 */
-	public void retrieveColletion(String collectionName) {
-		try {
-			if (collectionName == null || collectionName.isEmpty() || collectionName.equals(" ")) {
-				throw new CollectionNameEmptyException();
-			}
+	public void setColletion(String collectionName) {
+//		try {
+//			if (collectionName == null || collectionName.isEmpty() || collectionName.equals(" ")) {
+//				throw new CollectionNameEmptyException();
+//			}
 			collection = database.getCollection(collectionName);
-		} catch (Exception e) {
-			collectionName = null;
-		}
+//		} catch (Exception e) {
+//			collectionName = null;
+//		}
+			
 		// retrieve collection
 		System.out.println("Collection " + collectionName + " selected");
 	}
@@ -125,5 +127,6 @@ public class DatabaseConnection {
 	public MongoCollection<Document> getCollection() {
 		return collection;
 	}
+	
 
 }

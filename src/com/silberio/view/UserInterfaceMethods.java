@@ -2,6 +2,8 @@ package com.silberio.view;
 
 import java.util.Scanner;
 
+import com.silberio.model.DatabaseConnection;
+
 /**
  * Class containing methods for user interface. Currently only a scanner method
  * userInput(); to store user input locally, and a getter for said input.
@@ -9,7 +11,7 @@ import java.util.Scanner;
  * @author silberio_stalone
  *
  */
-public class UserInterfaceMethods {
+public class UserInterfaceMethods implements DocumentFormatting {
 
 	private static UserInterfaceMethods instance = new UserInterfaceMethods();
 
@@ -60,5 +62,20 @@ public class UserInterfaceMethods {
 	 */
 	public String getInput() {
 		return input;
+	}
+	
+	public void userMenu() {
+		System.out.println("YmirTech :: MedLog System 5000");
+		System.out.println("A) Create new patient file");
+		System.out.println("B) Retrieve a patient file");
+		System.out.println("C) Report a new M.D.");
+	}
+	
+	public void systemInit() {
+		System.out.println(":: Welcome to MedLog System 5000 by YmirTech ::");
+	}
+	
+	public void printDocuments(DatabaseConnection connection, String collectionName) {
+		DocumentFormatting.formatPatientObjectDocument(connection, collectionName);
 	}
 }

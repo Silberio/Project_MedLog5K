@@ -3,19 +3,22 @@ package com.silberio.controller;
 import org.bson.Document;
 
 import com.mongodb.client.MongoCollection;
+import com.silberio.model.DoctorObject;
 import com.silberio.model.PatientObject;
 
 public abstract class Logging {
 
+	
+	private String fileId;
+
 	/**
-	 * Abstract class to be implemented in respective classes. Used for creating an
+	 * Abstract method to be implemented in respective classes. Used for creating an
 	 * object to be logged later.
 	 */
 	public abstract void createLoggingObject();
-
-	private String fileId;
-	private int uniqueId;
-
+	
+	public abstract void objectToDocument();
+	
 	/**
 	 * inserts a document into a collection
 	 * 
@@ -27,9 +30,15 @@ public abstract class Logging {
 		collection.insertOne(document);
 	}
 
-
 	/**
-	 * gets the created id
+	 * sets a file ID for mongoDB documents
+	 * 
+	 */
+	public void setFileId() {
+		
+	}
+	/**
+	 * returns a file ID
 	 * 
 	 * @return
 	 */

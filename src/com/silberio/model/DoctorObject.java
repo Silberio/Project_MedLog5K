@@ -1,7 +1,13 @@
 package com.silberio.model;
 
-public class DoctorObject extends MedicalFile {
+import java.io.Serializable;
+
+public class DoctorObject implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String firstName;
 	private String lastName;
 	private String telephone;

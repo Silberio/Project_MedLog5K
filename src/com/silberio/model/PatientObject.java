@@ -1,11 +1,17 @@
 package com.silberio.model;
 
+import java.io.Serializable;
+
 /**
- * 
+ * A patient object
  * @author silberio_stalone
  *
  */
-public class PatientObject {
+public class PatientObject implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String firstName;
 	private String lastName;
 	private String address;
