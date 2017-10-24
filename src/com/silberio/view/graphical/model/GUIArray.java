@@ -31,8 +31,8 @@ public class GUIArray {
 		list.add(new ArrayList<>());
 		list.get(0).add("firstName");
 		list.get(0).add("lastName");
-		list.get(0).add("address");
 		list.get(0).add("dateOfBirth");
+		list.get(0).add("address");
 		list.get(0).add("telephone");
 		list.get(0).add("patientLog");
 		list.get(0).add("signedBy");

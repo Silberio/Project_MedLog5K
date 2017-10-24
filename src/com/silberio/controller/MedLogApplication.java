@@ -8,10 +8,10 @@ public class MedLogApplication {
 	public static void main(String[] args) {
 		
 		LogSystem logSys = LogSystem.getInstance();
-		MainGUIWindow gui = new MainGUIWindow();
+
 		
 
-//		logSys.mainframe();
+		logSys.mainframe();
 //		logSys.printDocuments();
 	
 			

@@ -1,4 +1,4 @@
-package com.silberio.model;
+package com.silberio.controller;
 
 import java.io.Serializable;
 
@@ -16,6 +16,11 @@ import com.mongodb.client.MongoDatabase;
  *
  */
 public class DatabaseConnection implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private static DatabaseConnection instance = null;
 

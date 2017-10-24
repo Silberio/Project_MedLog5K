@@ -5,7 +5,7 @@ import java.util.Iterator;
 import org.bson.Document;
 
 import com.mongodb.client.MongoCollection;
-import com.silberio.model.DatabaseConnection;
+import com.silberio.controller.DatabaseConnection;
 
 public interface DocumentFormatting {
 

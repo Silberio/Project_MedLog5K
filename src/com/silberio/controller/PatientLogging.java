@@ -2,9 +2,10 @@ package com.silberio.controller;
 
 import org.bson.Document;
 
-import com.silberio.model.DoctorObject;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.connection.Connection;
 import com.silberio.model.PatientObject;
-import com.silberio.view.UserInterfaceMethods;
+import com.silberio.view.graphical.control.GraphicalUserInterfaceMethods;
 
 /**
  * Class containing methods for logging patients to their respective mongoDB
@@ -35,15 +36,7 @@ import com.silberio.view.UserInterfaceMethods;
  */
 public class PatientLogging extends Logging {
 
-	private static PatientLogging instance = null;
-
-	private PatientObject patient;
-
-	private Document patientDocument;
-
-	private String patientID;
-	private String documentTitle;
-
+	private static PatientLogging instance = null;	
 	/**
 	 * returns an intance of PatientLogging
 	 * 
@@ -55,34 +48,26 @@ public class PatientLogging extends Logging {
 		}
 		return instance;
 	}
+	/* END singleton instantiation */
+	
+	 
+	private static GraphicalUserInterfaceMethods GUIMethods = GraphicalUserInterfaceMethods.getInstance();
+	
+	private PatientObject patient;
+
+	private Document patientDocument;
+
+	private String patientID;
+	private String documentTitle;
+	private MongoCollection<Document> collection;
 	
 	/**
 	 * creates a new patient and inserts attributes from user
 	 */
 	@Override
-	public void createLoggingObject() {
-		UserInterfaceMethods ui = new UserInterfaceMethods();
-
-		ui.userInput("doctor last name");
-		patient.doctorSignature(ui.getInput());
-		ui.userInput("first name");
-		patient.setFirstName(ui.getInput());
-		ui.userInput("last name");
-		patient.setLastName(ui.getInput());
-		ui.userInput("address");
-		patient.setAddress(ui.getInput());
-		ui.userInput("DoB");
-		patient.setDateOfBirth("date of birth");
-		ui.userInput("patient log");
-		patient.setPatientLog(ui.getInput());
-		ui.userInput("medication name");
-		patient.setPrescription(ui.getInput());
-		ui.userInput("reason for prescription");
-		patient.setReason(ui.getInput());
-
-		System.out.println(patient.toString());
-
-	}
+	public void createLoggingObject() {		
+		System.out.println("patient: " + patient.toString() + ", logged" );
+		}
 	
 	
 
@@ -107,9 +92,43 @@ public class PatientLogging extends Logging {
 				.append("phone", patient.getTelephone())
 				.append("patient_log", patient.getPatientLog())
 				.append("prescription", patient.getPrescription());
-
-		System.out.println("Patient file created succesfully!");
 	}
+	
+	public void insertDocument() {
+		collection.insertOne(patientDocument);
+	}
+
+//		@Override
+//		public void objectToDocument() {
+//			
+//			/*
+//			 * USER INTERFACE IN CONSOLE
+//			 * ONLY FOR DEBUGGING
+//			 */
+//			UserInterfaceMethods ui = new UserInterfaceMethods();
+//			
+//			ui.userInput("doctor last name");
+//			patient.doctorSignature(ui.getInput());
+//			ui.userInput("first name");
+//			patient.setFirstName(ui.getInput());
+//			ui.userInput("last name");
+//			patient.setLastName(ui.getInput());
+//			ui.userInput("address");
+//			patient.setAddress(ui.getInput());
+//			ui.userInput("DoB");
+//			patient.setDateOfBirth("date of birth");
+//			ui.userInput("patient log");
+//			patient.setPatientLog(ui.getInput());
+//			ui.userInput("medication name");
+//			patient.setPrescription(ui.getInput());
+//			ui.userInput("reason for prescription");
+//			patient.setReason(ui.getInput());
+//	
+//			System.out.println(patient.toString());
+//			System.out.println("Patient file created succesfully!");
+//		}
+
+
 
 	public Document getPatientDocument() {
 		return patientDocument;
@@ -122,5 +141,19 @@ public class PatientLogging extends Logging {
 	public void setPatient(PatientObject patient) {
 		this.patient = patient;
 	}
+
+
+
+	public MongoCollection<Document> getCollection() {
+		return collection;
+	}
+
+
+
+	public void setCollection(MongoCollection<Document> collection) {
+		this.collection = collection;
+	}
+
+	
 
 }

@@ -2,7 +2,7 @@ package com.silberio.view;
 
 import java.util.Scanner;
 
-import com.silberio.model.DatabaseConnection;
+import com.silberio.controller.DatabaseConnection;
 
 /**
  * Class containing methods for user interface. Currently only a scanner method
