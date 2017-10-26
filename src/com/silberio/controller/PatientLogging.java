@@ -1,9 +1,11 @@
 package com.silberio.controller;
 
+import java.util.List;
+
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 import com.mongodb.client.MongoCollection;
-import com.mongodb.connection.Connection;
 import com.silberio.model.PatientObject;
 import com.silberio.view.graphical.control.GraphicalUserInterfaceMethods;
 
@@ -57,10 +59,10 @@ public class PatientLogging extends Logging {
 
 	private Document patientDocument;
 
-	private String patientID;
+	private int patientID = 0;
 	private String documentTitle;
 	private MongoCollection<Document> collection;
-	
+	private List<Document> documents;
 	/**
 	 * creates a new patient and inserts attributes from user
 	 */
@@ -70,7 +72,6 @@ public class PatientLogging extends Logging {
 		}
 	
 	
-
 	/**
 	 * Takes in a patient object and sets it into a MongoDB document
 	 * 
@@ -79,25 +80,34 @@ public class PatientLogging extends Logging {
 	 */
 	@Override
 	public void objectToDocument() {
-
+		
 		documentTitle = "Patient" + patient.getLastName() + patient.getFirstName();
-		patientID = "id" + patient.getLastName() + patient.getFirstName();
 
 		patientDocument = new Document("title", documentTitle)
-				.append("id", patientID)
 				.append("first_name", patient.getFirstName())
 				.append("last_name", patient.getLastName())
 				.append("address", patient.getAddress())
 				.append("DoB", patient.getDateOfBirth())
 				.append("phone", patient.getTelephone())
 				.append("patient_log", patient.getPatientLog())
-				.append("prescription", patient.getPrescription());
+				.append("prescription", patient.getPrescription())
+				.append("signature", patient.getSignedBy());
+		
+		
 	}
 	
 	public void insertDocument() {
 		collection.insertOne(patientDocument);
 	}
+	
+	public void removeDocument(ObjectId id) {
+		collection.deleteOne(new Document("_id", id));
+	}
 
+	public void updateDocument() {
+		
+	}
+	
 //		@Override
 //		public void objectToDocument() {
 //			

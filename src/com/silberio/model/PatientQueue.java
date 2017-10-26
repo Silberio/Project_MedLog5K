@@ -32,9 +32,9 @@ public class PatientQueue {
 	 * 
 	 * @return head element patient
 	 */
-	public PatientObject getFirstPrioPatient() {
+	public PatientObject getFirstPrioPatient(){
 		PatientObject patient = queue.poll();
-		return patient;
+				return patient;
 	}
 	
 	public PatientObject peekFirstPrioPatient() {

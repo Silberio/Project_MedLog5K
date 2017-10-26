@@ -28,7 +28,7 @@ public class InputPanel extends JPanel {
 		return instance;
 	}
 
-	private Color medLogTan = new Color(232, 192, 132);
+	private final MedLogTan MLTAN = new MedLogTan();
 	
 	private InputField fNameField, lNameField, addressField, dobField, phoneField, prescription, signature;
 	private JTextArea logArea  = new JTextArea(10, 15); 
@@ -46,12 +46,12 @@ public class InputPanel extends JPanel {
 		GridBagLayout grid = new GridBagLayout();
 		GridBagConstraints gbc = new GridBagConstraints();
 
-		this.setBackground(medLogTan);
+		this.setBackground(MLTAN);
 		this.setLayout(grid);
 		this.setBorder(BorderFactory.createEmptyBorder(1, 2, 2, 2));
 		this.add(Box.createRigidArea(new Dimension(0, 5)));
 
-		gbc.insets = new Insets(4, 0, 5, 0);
+		gbc.insets = new Insets(2, 5, 2, 10);
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridx = 0;
 		gbc.gridy = 0;
@@ -63,13 +63,14 @@ public class InputPanel extends JPanel {
 		gbc.gridy = 1;
 		this.add(lNameField = new InputField("lname"), gbc);
 
+		gbc.insets.set(10, 5, 2, 10);
 		gbc.gridx = 0;
 		gbc.gridy = 2;
 		this.add(label = new JLabel("Address: "), gbc);
 		gbc.gridx = 1;
 		gbc.gridy = 2;
 		this.add(addressField = new InputField("address"), gbc);
-
+		gbc.insets.set(5, 5, 2, 10);
 		gbc.gridx = 0;
 		gbc.gridy = 3;
 		this.add(label = new JLabel("D.o.B.: "), gbc);
@@ -112,7 +113,7 @@ public class InputPanel extends JPanel {
 		gbc.gridy = 10;
 		this.add(signature = new InputField("signature"), gbc);
 		
-		gbc.insets = new Insets(20, 0, 0, 0);
+		gbc.insets.set(8, 10, 10, 10);
 		gbc.weighty = 10;
 		gbc.gridx = 1;
 		gbc.gridy = 11;

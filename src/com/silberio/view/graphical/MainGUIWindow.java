@@ -8,24 +8,27 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.silberio.view.graphical.control.GraphicalUserInterfaceMethods;
-import com.silberio.view.graphical.model.GUIArray;
 import com.silberio.view.graphical.model.InputPanel;
+import com.silberio.view.graphical.model.ListPanel;
+import com.silberio.view.graphical.model.OutputPanel;
+import com.silberio.view.graphical.model.SearchPanel;
 
 public class MainGUIWindow {
 
 	private static InputPanel inputPanel = InputPanel.getInstance();
 	private static GraphicalUserInterfaceMethods GUIMethods = GraphicalUserInterfaceMethods.getInstance();
 
-	private PatientFileDisplay infoPanel = new PatientFileDisplay();
-	private GUIArray guiArray = new GUIArray();
-	private JPanel buttonPanel = new JPanel();
-
+	private OutputPanel outputPanel = new OutputPanel();
+	private ListPanel listPanel = new ListPanel();
+	private SearchPanel searchPanel = new SearchPanel();
+	
 	private JFrame frame;
 	private JPanel panelWest;
 	private JPanel panelEast;
-	private JButton infoInputButton = inputPanel.getInputBtn();
+	private JPanel panelCenter;
+	private JPanel panelSouth;
 	
-	private final Color MEDLOGTAN = new Color(232, 192, 132);
+	private final Color MEDLOGTAN = new Color(173, 142, 97);
 
 	public MainGUIWindow() {
 		initGUI();
@@ -37,12 +40,15 @@ public class MainGUIWindow {
 		frame = new JFrame(); // default layout manager is BorderLayout
 		panelWest = new JPanel();
 		panelEast = new JPanel();
-
-		buttonPanel.setBackground(MEDLOGTAN);
-		GUIMethods.inputButtonListener(inputPanel.getInputBtn(), inputPanel);
+		panelCenter = new JPanel();
+		panelSouth = new JPanel();
+		
+		GUIMethods.inputButtonListener(inputPanel.getInputBtn(), inputPanel, listPanel);
+		GUIMethods.outputButtonistener(outputPanel.getOutputBtn(), outputPanel, listPanel);
+		GUIMethods.searchButtonClickHandler(searchPanel.getSearchButton(), searchPanel, listPanel);
 	}
 
-	public void storeInputInGUIMethods(int row) {
+	public void storeInputInGUIMethods() {
 		/*
 		 * get input from input fields on inputPanel and store them in GUIMethods
 		 * as strings
@@ -67,34 +73,33 @@ public class MainGUIWindow {
 		panelWest.add(inputPanel);
 		panelWest.setBackground(MEDLOGTAN);
 
-		panelEast.add(infoPanel);
+		panelEast.add(outputPanel);
 		panelEast.setBackground(MEDLOGTAN);
 
+		panelCenter.add(listPanel);
+		
+		panelSouth.add(searchPanel);
+		panelSouth.setBackground(new Color(173, 142, 97));
 		frame.add(panelWest, BorderLayout.WEST);
+		frame.add(panelCenter, BorderLayout.CENTER);
 		frame.add(panelEast, BorderLayout.EAST);
-
+		frame.add(panelSouth, BorderLayout.SOUTH);
+		
 		frame.setTitle("MedLog System 5000 : : by SilbTech");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(800, 600);
+		frame.setSize(1100, 650);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		frame.setResizable(false);
 	}
 
-	public JButton getInfoInputButton() {
-		return infoInputButton;
+	public ListPanel getListPanel() {
+		return listPanel;
 	}
 
-	public void setInfoInputButton(JButton infoInputButton) {
-		this.infoInputButton = infoInputButton;
+	public void setListPanel(ListPanel listPanel) {
+		this.listPanel = listPanel;
 	}
-
-	public GUIArray getGuiArray() {
-		return guiArray;
-	}
-
-	public void setGuiArray(GUIArray guiArray) {
-		this.guiArray = guiArray;
-	}
+	
 	
 }

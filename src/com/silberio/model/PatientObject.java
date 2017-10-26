@@ -2,18 +2,23 @@ package com.silberio.model;
 
 import java.io.Serializable;
 
+import org.bson.types.ObjectId;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.client.MongoCollection;
+
 /**
  * A patient object
  * 
  * @author silberio_stalone
  *
  */
-public class PatientObject implements Serializable, Comparable<PatientObject> {
+public class PatientObject implements Serializable{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int id;
+	private String hexId;
 	private String firstName;
 	private String lastName;
 	private String address;
@@ -23,7 +28,7 @@ public class PatientObject implements Serializable, Comparable<PatientObject> {
 	private String signedBy;
 	private String prescription;
 	private String prescriptionReason;
-
+	
 	public PatientObject() {
 
 	}
@@ -115,6 +120,10 @@ public class PatientObject implements Serializable, Comparable<PatientObject> {
 	public void doctorSignature(String doctorName) {
 		this.signedBy = "Dr." + doctorName;
 	}
+	
+	public String getDoctor() {
+		return signedBy;
+	}
 
 	/**
 	 * returns signature of doctor.
@@ -122,19 +131,14 @@ public class PatientObject implements Serializable, Comparable<PatientObject> {
 	 * @return the string of doctor name and title
 	 */
 	public String getSignedBy() {
-		return signedBy;
-	}
+		String str =  "Patient: " + lastName + ", " + firstName + ". Signed by: " + signedBy;
+		return str;
+		}
+	
 
 	/*
 	 * GETTERS AND SETTERS
 	 */
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public String getFirstName() {
 		return firstName;
@@ -175,6 +179,14 @@ public class PatientObject implements Serializable, Comparable<PatientObject> {
 	public void setTelephone(String telephone) {
 		this.telephone = telephone;
 	}
+	
+	public String getHexId() {
+		return hexId;
+	}
+
+	public void setHexId(String hexId) {
+		this.hexId = hexId;
+	}
 
 	/**
 	 * Patient toString() representation
@@ -184,11 +196,4 @@ public class PatientObject implements Serializable, Comparable<PatientObject> {
 		String str = "Patient: " + lastName + ", " + firstName + ". Signed by: " + signedBy;
 		return str;
 	}
-
-	@Override
-	public int compareTo(PatientObject patient) {
-		
-		return (this.id - patient.getId());
-	}
-
 }

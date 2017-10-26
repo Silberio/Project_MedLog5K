@@ -1,6 +1,7 @@
 package com.silberio.controller;
 
 import java.io.Serializable;
+import java.util.Iterator;
 
 import org.bson.Document;
 
@@ -8,6 +9,7 @@ import com.mongodb.MongoClient;
 import com.mongodb.MongoCredential;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.silberio.view.graphical.model.ListPanel;
 
 /**
  * Singleton class for instantiating connection to server.
@@ -25,8 +27,8 @@ public class DatabaseConnection implements Serializable {
 	private static DatabaseConnection instance = null;
 
 	private MongoCredential credential;
-	private MongoDatabase database;
 	private MongoClient mongo;
+	private MongoDatabase database;
 	private MongoCollection<Document> collection;
 
 	protected DatabaseConnection() {
@@ -81,15 +83,16 @@ public class DatabaseConnection implements Serializable {
 	 *            </p>
 	 */
 	public void setColletion(String collectionName) {
-//		try {
-//			if (collectionName == null || collectionName.isEmpty() || collectionName.equals(" ")) {
-//				throw new CollectionNameEmptyException();
-//			}
-			collection = database.getCollection(collectionName);
-//		} catch (Exception e) {
-//			collectionName = null;
-//		}
-			
+		// try {
+		// if (collectionName == null || collectionName.isEmpty() ||
+		// collectionName.equals(" ")) {
+		// throw new CollectionNameEmptyException();
+		// }
+		collection = database.getCollection(collectionName);
+		// } catch (Exception e) {
+		// collectionName = null;
+		// }
+
 		// retrieve collection
 		System.out.println("Collection " + collectionName + " selected");
 	}
@@ -111,7 +114,7 @@ public class DatabaseConnection implements Serializable {
 		System.out.println("Collection " + collection + " created succesfully");
 
 	}
-	
+
 	/**
 	 * inserts a document into a collection
 	 * 
@@ -121,17 +124,24 @@ public class DatabaseConnection implements Serializable {
 	public void insertDocument(MongoCollection<Document> collection, Document document) {
 
 		collection.insertOne(document);
-		// insert this into the right collection
-		// i think the problem is that the coll
+	}
+	
+	public void loadPatientList(ListPanel listPanel) {
+		
+		Iterator<Document> iterator = database.getCollection("PatientCollection").find().iterator();
+		
+		while(iterator.hasNext()) {
+			String patientListFile = iterator.next().getString("signature");
+			listPanel.addPatientToList(patientListFile);
+		}
 	}
 
 	/**
 	 * Retrieves a MongoDB collection from the database
+	 * 
 	 * @return the collection to be retrieved
 	 */
 	public MongoCollection<Document> getCollection() {
 		return collection;
 	}
-	
-
 }
