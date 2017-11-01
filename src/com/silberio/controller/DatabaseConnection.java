@@ -126,15 +126,6 @@ public class DatabaseConnection implements Serializable {
 		collection.insertOne(document);
 	}
 	
-	public void loadPatientList(ListPanel listPanel) {
-		
-		Iterator<Document> iterator = database.getCollection("PatientCollection").find().iterator();
-		
-		while(iterator.hasNext()) {
-			String patientListFile = iterator.next().getString("signature");
-			listPanel.addPatientToList(patientListFile);
-		}
-	}
 
 	/**
 	 * Retrieves a MongoDB collection from the database

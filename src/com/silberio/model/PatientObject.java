@@ -18,7 +18,6 @@ public class PatientObject implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String hexId;
 	private String firstName;
 	private String lastName;
 	private String address;
@@ -60,85 +59,10 @@ public class PatientObject implements Serializable{
 		this.telephone = telephone;
 	}
 
-	/**
-	 * Stores the patient log.
-	 * 
-	 * @param log
-	 *            the log itself written by doctor.
-	 */
-	public void setPatientLog(String log) {
-		this.patientLog = log;
-	}
-
-	/**
-	 * returns the written patient log
-	 * 
-	 * @return log file written by doctor
-	 */
-	public String getPatientLog() {
-		String str = "File: " + patientLog;
-		return str;
-	}
-
-	/**
-	 * Stores a prescription log given by doctor
-	 * 
-	 * @param prescription
-	 *            the prescription itself
-	 */
-	public void setPrescription(String prescription) {
-		this.prescription = prescription;
-	}
-
-	/**
-	 * Stores a short reason for prescribing a medication
-	 * 
-	 * @param reason
-	 *            short reason
-	 */
-	public void setReason(String reason) {
-		this.prescriptionReason = reason;
-	}
-
-	/**
-	 * returns the prescription given by doctor, with the reason
-	 * 
-	 * @return the precription log for a given patient
-	 */
-	public String getPrescription() {
-		String str = "Prescribed: " + prescription + ". " + prescriptionReason;
-		return str;
-	}
-
-	/**
-	 * sets doctor signature. Only last name required (or full name) as title is
-	 * added by program itself.
-	 * 
-	 * @param doctorName
-	 *            name of doctor who signed log
-	 */
-	public void doctorSignature(String doctorName) {
-		this.signedBy = "Dr." + doctorName;
-	}
-	
-	public String getDoctor() {
-		return signedBy;
-	}
-
-	/**
-	 * returns signature of doctor.
-	 * 
-	 * @return the string of doctor name and title
-	 */
-	public String getSignedBy() {
-		String str =  "Patient: " + lastName + ", " + firstName + ". Signed by: " + signedBy;
-		return str;
-		}
-	
-
 	/*
 	 * GETTERS AND SETTERS
 	 */
+
 
 	public String getFirstName() {
 		return firstName;
@@ -179,14 +103,41 @@ public class PatientObject implements Serializable{
 	public void setTelephone(String telephone) {
 		this.telephone = telephone;
 	}
-	
-	public String getHexId() {
-		return hexId;
+
+	public String getPatientLog() {
+		return patientLog;
 	}
 
-	public void setHexId(String hexId) {
-		this.hexId = hexId;
+	public void setPatientLog(String patientLog) {
+		this.patientLog = patientLog;
 	}
+
+	public String getSignedBy() {
+		return "Dr. " + signedBy;
+	}
+
+	public void setSignedBy(String signedBy) {
+		this.signedBy = signedBy;
+	}
+
+	public String getPrescription() {
+		return prescription;
+	}
+
+	public void setPrescription(String prescription) {
+		this.prescription = prescription;
+	}
+
+	public String getPrescriptionReason() {
+		return prescriptionReason;
+	}
+
+	public void setPrescriptionReason(String prescriptionReason) {
+		this.prescriptionReason = prescriptionReason;
+	}
+	
+	
+	
 
 	/**
 	 * Patient toString() representation

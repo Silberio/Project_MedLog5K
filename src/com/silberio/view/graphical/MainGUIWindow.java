@@ -3,11 +3,9 @@ package com.silberio.view.graphical;
 import java.awt.BorderLayout;
 import java.awt.Color;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import com.silberio.view.graphical.control.GraphicalUserInterfaceMethods;
 import com.silberio.view.graphical.model.InputPanel;
 import com.silberio.view.graphical.model.ListPanel;
 import com.silberio.view.graphical.model.OutputPanel;
@@ -16,7 +14,6 @@ import com.silberio.view.graphical.model.SearchPanel;
 public class MainGUIWindow {
 
 	private static InputPanel inputPanel = InputPanel.getInstance();
-	private static GraphicalUserInterfaceMethods GUIMethods = GraphicalUserInterfaceMethods.getInstance();
 
 	private OutputPanel outputPanel = new OutputPanel();
 	private ListPanel listPanel = new ListPanel();
@@ -43,26 +40,7 @@ public class MainGUIWindow {
 		panelCenter = new JPanel();
 		panelSouth = new JPanel();
 		
-		GUIMethods.inputButtonListener(inputPanel.getInputBtn(), inputPanel, listPanel);
-		GUIMethods.outputButtonistener(outputPanel.getOutputBtn(), outputPanel, listPanel);
-		GUIMethods.searchButtonClickHandler(searchPanel.getSearchButton(), searchPanel, listPanel);
-	}
 
-	public void storeInputInGUIMethods() {
-		/*
-		 * get input from input fields on inputPanel and store them in GUIMethods
-		 * as strings
-		 */
-		GUIMethods.setInfoFromGUI(
-				inputPanel.getfNameField().getText(), 
-				inputPanel.getlNameField().getText(),
-				inputPanel.getDobField().getText(), 
-				inputPanel.getAddressField().getText(),
-				inputPanel.getPhoneField().getText(), 
-				inputPanel.getLogArea().getText(),
-				inputPanel.getPrescription().getText(), 
-				inputPanel.getPrescriptionReason().getText(),
-				inputPanel.getSignature().getText());
 	}
 	
 	/**
@@ -92,6 +70,26 @@ public class MainGUIWindow {
 		frame.setVisible(true);
 		frame.setResizable(false);
 	}
+	
+	/*
+	 * GETTERS AND SETTERS
+	 */
+
+	public static InputPanel getInputPanel() {
+		return inputPanel;
+	}
+
+	public static void setInputPanel(InputPanel inputPanel) {
+		MainGUIWindow.inputPanel = inputPanel;
+	}
+
+	public OutputPanel getOutputPanel() {
+		return outputPanel;
+	}
+
+	public void setOutputPanel(OutputPanel outputPanel) {
+		this.outputPanel = outputPanel;
+	}
 
 	public ListPanel getListPanel() {
 		return listPanel;
@@ -100,6 +98,16 @@ public class MainGUIWindow {
 	public void setListPanel(ListPanel listPanel) {
 		this.listPanel = listPanel;
 	}
+
+	public SearchPanel getSearchPanel() {
+		return searchPanel;
+	}
+
+	public void setSearchPanel(SearchPanel searchPanel) {
+		this.searchPanel = searchPanel;
+	}
+
+
 	
 	
 }
