@@ -15,7 +15,7 @@ public class SearchPanelMethods {
 	 * @param btn
 	 * @param searchPanel
 	 */
-	public void searchButtonClickHandler(JButton btn, SearchPanel searchPanel, ListPanel listPanel) {
+	public void searchButtonClickHandler(JButton btn, SearchPanel searchPanel) {
 		btn.addActionListener(new ActionListener() {
 			
 			@Override
@@ -23,4 +23,6 @@ public class SearchPanelMethods {
 			}
 		});
 	}
+	
+	
 }

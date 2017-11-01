@@ -16,6 +16,14 @@ import javax.swing.JTextField;
 
 public class SearchPanel extends JPanel {
 	
+	private static SearchPanel instance = null;
+	
+	public static SearchPanel getInstance() {
+		if(instance == null) {
+			instance = new SearchPanel();
+		} return instance;
+	}
+	
 	private final MedLogTan MLTAN = new MedLogTan();
 	private JButton searchButton;
 	private JLabel label;

@@ -20,10 +20,23 @@ public class OutputPanel extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	/*
+	 * SINGLETON INSTANTIATION
+	 */
+	private static OutputPanel instance = null;
+
+	public static OutputPanel getInstance() {
+		if (instance == null) {
+			instance = new OutputPanel();
+		}
+		return instance;
+	}
+	/*
+	 * END SINGLETON INSTANTIATION
+	 */
 	private final MedLogTan MLTAN = new MedLogTan();
 	private JLabel label;
-	private JTextField outputField;
-	private JTextArea nameField, addressField, dobField, phoneField, logField, prescriptionField, signatureField;
+	private JTextArea nameField, addressField, doateOfBirthField, phoneField, logField, prescriptionField, signatureField;
 	private JButton outputBtn = new JButton("Remove Patient");
 	private JButton editBtn = new JButton("Edit File");
 	private JButton updateInfo = new JButton("Update");
@@ -60,8 +73,8 @@ public class OutputPanel extends JPanel {
 		this.add(outputLabel("D.o.B.: "), gbc);
 		gbc.gridx = 0;
 		gbc.gridy = 5;
-		this.add(dobField = new JTextArea(1,20), gbc);
-		this.dobField.setEditable(false);
+		this.add(doateOfBirthField = new JTextArea(1,20), gbc);
+		this.doateOfBirthField.setEditable(false);
 		
 		gbc.gridx = 0;
 		gbc.gridy = 6;
@@ -108,93 +121,95 @@ public class OutputPanel extends JPanel {
 		return label;
 	}
 	
-	public void displayInfo(String name, String address, String dob, String phone, String log, String prescription, String signature) {
-		nameField.setText(name);
-		addressField.setText(address);
-		dobField.setText(dob);
-		phoneField.setText(phone);
-		logField.setText(log);
-		prescriptionField.setText(prescription);
-		signatureField.setText(signature);
-	}
-	
 	public void editInfo() {
 		nameField.setEditable(true);
 		addressField.setEditable(true);
-		dobField.setEditable(true);
+		doateOfBirthField.setEditable(true);
 		phoneField.setEditable(true);
 		logField.setEditable(true);
 		prescriptionField.setEditable(true);
 		signatureField.setEditable(true);
 	}
+	
+	/*
+	 * GETTERS AND SETTERS
+	 */
 
-	public JTextField getOutputField() {
-		return outputField;
-	}
-
-	public void setOutputField(JTextField outputField) {
-		this.outputField = outputField;
-	}
 
 	public JTextArea getNameField() {
 		return nameField;
 	}
 
+
 	public void setNameField(JTextArea nameField) {
 		this.nameField = nameField;
 	}
+
 
 	public JTextArea getAddressField() {
 		return addressField;
 	}
 
+
 	public void setAddressField(JTextArea addressField) {
 		this.addressField = addressField;
 	}
 
-	public JTextArea getDobField() {
-		return dobField;
+
+	public JTextArea getDoateOfBirthField() {
+		return doateOfBirthField;
 	}
 
-	public void setDobField(JTextArea dobField) {
-		this.dobField = dobField;
+
+	public void setDoateOfBirthField(JTextArea doateOfBirthField) {
+		this.doateOfBirthField = doateOfBirthField;
 	}
+
 
 	public JTextArea getPhoneField() {
 		return phoneField;
 	}
 
+
 	public void setPhoneField(JTextArea phoneField) {
 		this.phoneField = phoneField;
 	}
+
 
 	public JTextArea getLogField() {
 		return logField;
 	}
 
+
 	public void setLogField(JTextArea logField) {
 		this.logField = logField;
 	}
+
 
 	public JTextArea getPrescriptionField() {
 		return prescriptionField;
 	}
 
+
 	public void setPrescriptionField(JTextArea prescriptionField) {
 		this.prescriptionField = prescriptionField;
 	}
+
 
 	public JTextArea getSignatureField() {
 		return signatureField;
 	}
 
+
 	public void setSignatureField(JTextArea signatureField) {
 		this.signatureField = signatureField;
 	}
 
+
 	public JButton getOutputBtn() {
 		return outputBtn;
 	}
+
 
 	public void setOutputBtn(JButton outputBtn) {
 		this.outputBtn = outputBtn;
@@ -209,6 +224,18 @@ public class OutputPanel extends JPanel {
 	public void setEditBtn(JButton editBtn) {
 		this.editBtn = editBtn;
 	}
+
+
+	public JButton getUpdateInfo() {
+		return updateInfo;
+	}
+
+
+	public void setUpdateInfo(JButton updateInfo) {
+		this.updateInfo = updateInfo;
+	}
+
+
 	
 	
 	

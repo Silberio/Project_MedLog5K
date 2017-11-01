@@ -6,6 +6,7 @@ import com.silberio.view.UserInterfaceMethods;
 import com.silberio.view.graphical.MainGUIWindow;
 import com.silberio.view.graphical.control.GraphicalUserInterfaceMethods;
 import com.silberio.view.graphical.control.InputPanelMethods;
+import com.silberio.view.graphical.control.OutputPanelMethods;
 
 public class LogSystem {
 
@@ -27,6 +28,7 @@ public class LogSystem {
 	private GraphicalUserInterfaceMethods GUIMethods = GraphicalUserInterfaceMethods.getInstance();
 	
 	private InputPanelMethods inputMethods = InputPanelMethods.getInstance();
+	private OutputPanelMethods outputMethods = OutputPanelMethods.getInstance();
 	
 	private MainGUIWindow gui;
 	private PatientQueue patQueue;
@@ -57,13 +59,16 @@ public class LogSystem {
 		GUIMethods.setConnection(connection);
 	}
 	
-	
-	
 	private void initButtonListeners() {
+		//Input button
 		inputMethods.setCollection(connection.getCollection());
 		inputMethods.setConnection(connection);
-		inputMethods.inputButtonListener(MainGUIWindow.getInputPanel().getInputBtn(), MainGUIWindow.getInputPanel());
+		inputMethods.inputButtonListener(gui.getInputPanel().getInputBtn(), gui.getInputPanel());
 		
+		//Output button
+		outputMethods.setCollection(connection.getCollection());
+		outputMethods.setConnection(connection);
+		outputMethods.outputButtonistener(gui.getOutputPanel().getOutputBtn(), gui.getOutputPanel());
 	}
 
 }

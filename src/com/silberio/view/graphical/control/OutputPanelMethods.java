@@ -48,21 +48,15 @@ public class OutputPanelMethods extends Logging {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				documentToObject();
 				setTextToOutputFields(outputPanel);
-
 			}
 		});
 	}
 	
 	private void setTextToOutputFields(OutputPanel outputPanel) {
-		outputPanel.getNameField().setText(patient.getLastName() + ", " + patient.getFirstName());
-		outputPanel.getAddressField().setText(patient.getAddress());
-		outputPanel.getDobField().setText(patient.getDateOfBirth());
-		outputPanel.getPhoneField().setText(patient.getTelephone());
-		outputPanel.getLogField().setText(patient.getPatientLog());
-		outputPanel.getPrescriptionField().setText(patient.getPrescription());
-		outputPanel.getSignatureField().setText(patient.getSignedBy());
+		outputPanel.getNameField().setText(this.patient.getLastName() + ", " + this.patient.getFirstName());
+
 	}
 	
 	/*
@@ -87,6 +81,7 @@ public class OutputPanelMethods extends Logging {
 		
 		while(iterator.hasNext()) {
 			this.document = iterator.next();
+			patient = new PatientObject();
 			
 			this.patient.setFirstName(document.getString("first_name"));
 			this.patient.setLastName(document.getString("last_name"));
@@ -95,7 +90,7 @@ public class OutputPanelMethods extends Logging {
 			this.patient.setTelephone(document.getString("phone"));
 			this.patient.setPatientLog(document.getString("patient_log"));
 			this.patient.setPrescription(document.getString("prescription"));
-			this.patient.setPrescriptionReason(document.getString("presc_reson"));
+			this.patient.setPrescriptionReason(document.getString("prescription_reson"));
 			this.patient.setSignedBy(document.getString("signature"));
 		}
 		

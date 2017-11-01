@@ -19,6 +19,10 @@ public class InputPanel extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
+	/*
+	 * SINGLETON INSTANTIATION
+	 */
 	private static InputPanel instance = null;
 
 	public static InputPanel getInstance() {
@@ -27,6 +31,9 @@ public class InputPanel extends JPanel {
 		}
 		return instance;
 	}
+	/*
+	 * END SINGLETON INSTANTIATION
+	 */
 
 	private final MedLogTan MLTAN = new MedLogTan();
 	

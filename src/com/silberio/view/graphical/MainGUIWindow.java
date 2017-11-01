@@ -13,9 +13,9 @@ import com.silberio.view.graphical.model.SearchPanel;
 
 public class MainGUIWindow {
 
-	private static InputPanel inputPanel = InputPanel.getInstance();
-
-	private OutputPanel outputPanel = new OutputPanel();
+	private InputPanel inputPanel = InputPanel.getInstance();
+	private OutputPanel outputPanel = OutputPanel.getInstance();
+	
 	private ListPanel listPanel = new ListPanel();
 	private SearchPanel searchPanel = new SearchPanel();
 	
@@ -71,16 +71,18 @@ public class MainGUIWindow {
 		frame.setResizable(false);
 	}
 	
+	
 	/*
 	 * GETTERS AND SETTERS
 	 */
 
-	public static InputPanel getInputPanel() {
+
+	public InputPanel getInputPanel() {
 		return inputPanel;
 	}
 
-	public static void setInputPanel(InputPanel inputPanel) {
-		MainGUIWindow.inputPanel = inputPanel;
+	public void setInputPanel(InputPanel inputPanel) {
+		this.inputPanel = inputPanel;
 	}
 
 	public OutputPanel getOutputPanel() {
@@ -99,15 +101,7 @@ public class MainGUIWindow {
 		this.listPanel = listPanel;
 	}
 
-	public SearchPanel getSearchPanel() {
-		return searchPanel;
-	}
-
-	public void setSearchPanel(SearchPanel searchPanel) {
-		this.searchPanel = searchPanel;
-	}
-
-
+	
 	
 	
 }
