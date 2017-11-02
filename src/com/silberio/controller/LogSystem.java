@@ -6,6 +6,7 @@ import com.silberio.view.UserInterfaceMethods;
 import com.silberio.view.graphical.MainGUIWindow;
 import com.silberio.view.graphical.control.GraphicalUserInterfaceMethods;
 import com.silberio.view.graphical.control.InputPanelMethods;
+import com.silberio.view.graphical.control.ListPanelMethods;
 import com.silberio.view.graphical.control.OutputPanelMethods;
 
 public class LogSystem {
@@ -29,6 +30,7 @@ public class LogSystem {
 	
 	private InputPanelMethods inputMethods = InputPanelMethods.getInstance();
 	private OutputPanelMethods outputMethods = OutputPanelMethods.getInstance();
+	private ListPanelMethods listMethods = ListPanelMethods.getInstance();
 	
 	private MainGUIWindow gui;
 	private PatientQueue patQueue;
@@ -44,7 +46,9 @@ public class LogSystem {
 		connection.establishConnectionToDatabase();
 		connection.setColletion("PatientCollection");
 		connection.getCollection();
+		
 		initGUISystem();
+		initInternalMethods();
 		initButtonListeners();
 	}
 
@@ -55,20 +59,36 @@ public class LogSystem {
 
 	private void initGUISystem() {
 		gui = new MainGUIWindow();
-		GUIMethods.setCollection(connection.getCollection());
-		GUIMethods.setConnection(connection);
+
+	}
+	
+	private void initInternalMethods() {
+		inputMethods.setCollection(connection.getCollection());
+		inputMethods.setConnection(connection);
+		
+		outputMethods.setCollection(connection.getCollection());
+		outputMethods.setConnection(connection);
+		
+		listMethods.setListPanel(gui.getListPanel());
+		listMethods.setInputPanel(gui.getInputPanel());
 	}
 	
 	private void initButtonListeners() {
 		//Input button
-		inputMethods.setCollection(connection.getCollection());
-		inputMethods.setConnection(connection);
 		inputMethods.inputButtonListener(gui.getInputPanel().getInputBtn(), gui.getInputPanel());
+		listMethods.insertPatientToList(gui.getInputPanel().getInputBtn(), gui.getListPanel());
 		
-		//Output button
-		outputMethods.setCollection(connection.getCollection());
-		outputMethods.setConnection(connection);
-		outputMethods.outputButtonistener(gui.getOutputPanel().getOutputBtn(), gui.getOutputPanel());
+		//Retrieve button
+		outputMethods.retrieveButtonListener(gui.getOutputPanel().getRetrieveBtn(), gui.getOutputPanel());
+		//Edit button
+		outputMethods.editButtonListener(gui.getOutputPanel().getEditBtn(), gui.getOutputPanel());
+		
+		//Update button
+		outputMethods.updateButtonListener(gui.getOutputPanel().getUpdateBtn(), gui.getOutputPanel());
+	}
+	
+	private void initGUIPatientList() {
+		
 	}
 
 }

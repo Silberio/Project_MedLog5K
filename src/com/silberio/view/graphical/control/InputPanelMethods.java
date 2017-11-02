@@ -79,7 +79,7 @@ public class InputPanelMethods extends Logging {
 				createLoggingObject();
 				
 				//insert document object to database
-				insertDocument(document);
+//				insertDocument(document);
 
 				// clear GUI
 				clearGUIFields(inputPanel);
@@ -99,6 +99,7 @@ public class InputPanelMethods extends Logging {
 		patient.setLastName(inputPanel.getlNameField().getText());
 		patient.setAddress(inputPanel.getAddressField().getText());
 		patient.setDateOfBirth(inputPanel.getDobField().getText());
+		patient.setTelephone(inputPanel.getPhoneField().getText());
 		patient.setPatientLog(inputPanel.getLogArea().getText());
 		patient.setPrescription(inputPanel.getPrescription().getText());
 		patient.setPrescriptionReason(inputPanel.getPrescriptionReason().getText());

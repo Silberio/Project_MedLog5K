@@ -24,17 +24,13 @@ public class ListPanel extends JPanel {
 	private final MedLogTan MLTAN = new MedLogTan();
 	private JList<String> list;
 	private DefaultListModel<String> model;
-	private ArrayList<PatientObject> internalList;
-	private PatientObject patient = new PatientObject();
 	
 	public ListPanel() {
 		GridBagLayout grid = new GridBagLayout();
 		GridBagConstraints gbc = new GridBagConstraints();
 		
 		model = new DefaultListModel<String>();
-	    list = new JList<String>(model);
-	    internalList = new ArrayList<PatientObject>();
-	    
+	    list = new JList<String>(model);	    
 	    JScrollPane pane = new JScrollPane(list);
 	    
 		this.setBackground(MLTAN);
@@ -52,33 +48,28 @@ public class ListPanel extends JPanel {
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		this.add(pane, gbc);
-	}
+		}
+
+	/*
+	 * GETTERS AND SETTERS 
+	 */
 	
-	public void addPatientToList(String element) {
-		model.addElement(element);
-	}
-	
-	public void insertPatientToInternalList(PatientObject patient) {
-		internalList.add(patient);
-	}
-	
-	public void removePatientFromList() {
-		model.remove(0);
+	public JList<String> getList() {
+		return list;
 	}
 
-	public ArrayList<PatientObject> getInternalList() {
-		return internalList;
+	public void setList(JList<String> list) {
+		this.list = list;
 	}
 
-	public void setInternalList(ArrayList<PatientObject> internalList) {
-		this.internalList = internalList;
+	public DefaultListModel<String> getModel() {
+		return model;
 	}
 
-	public void searchElement(CharSequence searchTerm) {
-		String toSearch = patient.toString().toLowerCase();
+	public void setModel(DefaultListModel<String> model) {
+		this.model = model;
 	}
 	
 	
-	
-		
+
 }	

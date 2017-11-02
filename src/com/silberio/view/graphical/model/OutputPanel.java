@@ -36,10 +36,11 @@ public class OutputPanel extends JPanel {
 	 */
 	private final MedLogTan MLTAN = new MedLogTan();
 	private JLabel label;
-	private JTextArea nameField, addressField, doateOfBirthField, phoneField, logField, prescriptionField, signatureField;
+	private JTextArea nameField, addressField, dateOfBirthField, phoneField, logField, prescriptionField, signatureField;
+	private JButton retrieveBtn = new JButton("Retrieve Patient");
 	private JButton outputBtn = new JButton("Remove Patient");
 	private JButton editBtn = new JButton("Edit File");
-	private JButton updateInfo = new JButton("Update");
+	private JButton updateBtn = new JButton("Update");
 	
 	public OutputPanel() {
 		GridBagLayout grid = new GridBagLayout();
@@ -73,8 +74,8 @@ public class OutputPanel extends JPanel {
 		this.add(outputLabel("D.o.B.: "), gbc);
 		gbc.gridx = 0;
 		gbc.gridy = 5;
-		this.add(doateOfBirthField = new JTextArea(1,20), gbc);
-		this.doateOfBirthField.setEditable(false);
+		this.add(dateOfBirthField = new JTextArea(1,20), gbc);
+		this.dateOfBirthField.setEditable(false);
 		
 		gbc.gridx = 0;
 		gbc.gridy = 6;
@@ -103,6 +104,10 @@ public class OutputPanel extends JPanel {
 		
 		gbc.gridx = 0;
 		gbc.gridy = 12;
+		this.add(retrieveBtn, gbc);	
+		
+		gbc.gridx = 0;
+		gbc.gridy = 13;
 		this.add(outputBtn, gbc);	
 		
 		gbc.gridx = 1;
@@ -111,7 +116,7 @@ public class OutputPanel extends JPanel {
 		
 		gbc.gridx = 1;
 		gbc.gridy = 13;
-		this.add(updateInfo, gbc);
+		this.add(updateBtn, gbc);
 	}	
 	
 
@@ -120,17 +125,7 @@ public class OutputPanel extends JPanel {
 		
 		return label;
 	}
-	
-	public void editInfo() {
-		nameField.setEditable(true);
-		addressField.setEditable(true);
-		doateOfBirthField.setEditable(true);
-		phoneField.setEditable(true);
-		logField.setEditable(true);
-		prescriptionField.setEditable(true);
-		signatureField.setEditable(true);
-	}
-	
+
 	/*
 	 * GETTERS AND SETTERS
 	 */
@@ -156,13 +151,13 @@ public class OutputPanel extends JPanel {
 	}
 
 
-	public JTextArea getDoateOfBirthField() {
-		return doateOfBirthField;
+	public JTextArea getDateOfBirthField() {
+		return dateOfBirthField;
 	}
 
 
-	public void setDoateOfBirthField(JTextArea doateOfBirthField) {
-		this.doateOfBirthField = doateOfBirthField;
+	public void setDateOfBirthField(JTextArea doateOfBirthField) {
+		this.dateOfBirthField = doateOfBirthField;
 	}
 
 
@@ -226,13 +221,23 @@ public class OutputPanel extends JPanel {
 	}
 
 
-	public JButton getUpdateInfo() {
-		return updateInfo;
+	public JButton getUpdateBtn() {
+		return updateBtn;
 	}
 
 
-	public void setUpdateInfo(JButton updateInfo) {
-		this.updateInfo = updateInfo;
+	public void setUpdateBtn(JButton updateInfo) {
+		this.updateBtn = updateInfo;
+	}
+
+
+	public JButton getRetrieveBtn() {
+		return retrieveBtn;
+	}
+
+
+	public void setRetrieveBtn(JButton retrieveBtn) {
+		this.retrieveBtn = retrieveBtn;
 	}
 
 
