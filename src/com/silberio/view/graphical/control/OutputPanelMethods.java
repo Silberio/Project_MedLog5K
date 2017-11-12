@@ -36,6 +36,8 @@ public class OutputPanelMethods extends Logging {
 	private Document document = null;
 	private Document newDocument = null;
 	private DatabaseConnection connection = null;
+	private OutputPanel outputPanel = null;
+	private Iterator<Document> iterator = null;
 
 	/*
 	 * BUTTON LISTENERS
@@ -44,14 +46,18 @@ public class OutputPanelMethods extends Logging {
 	/**
 	 * Listener for Retrieving patient file button
 	 * 
+	 * 
 	 */
-	public void retrieveButtonListener(JButton btn, OutputPanel outputPanel) {
+	public void retrieveButtonListener(JButton btn) {
 		btn.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				documentToObject();
-				setTextToOutputFields(outputPanel);
+				setTextToOutputFields();
+				
+				outputPanel.getEditBtn().setEnabled(true);
+				outputPanel.getUpdateBtn().setEnabled(true);
 			}
 		});
 	}
@@ -63,12 +69,19 @@ public class OutputPanelMethods extends Logging {
 	 * @param outputPanel
 	 * @param listPanel
 	 */
-	public void outputButtonListener(JButton btn, OutputPanel outputPanel) {
+	public void outputButtonListener(JButton btn) {
 		btn.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				outputPanel.getFnameField().setText("");
+				outputPanel.getLnameField().setText("");
+				outputPanel.getAddressField().setText("");
+				outputPanel.getDateOfBirthField().setText("");
+				outputPanel.getPhoneField().setText("");
+				outputPanel.getLogField().setText("");
+				outputPanel.getPrescriptionField().setText("");
+				outputPanel.getPrescriptionReasonField().setText("");
 			}
 		});
 	}
@@ -78,12 +91,15 @@ public class OutputPanelMethods extends Logging {
 	 * @param btn
 	 * @param outputPanel
 	 */
-	public void editButtonListener(JButton btn, OutputPanel outputPanel) {
+	public void editButtonListener(JButton btn) {
 		btn.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				openFieldsForEdit(outputPanel);
+				openFieldsForEdit();
+				
+				outputPanel.getEditBtn().setEnabled(false);
+
 			}
 		});
 	}
@@ -93,24 +109,31 @@ public class OutputPanelMethods extends Logging {
 	 * @param btn
 	 * @param outputPanel
 	 */
-	public void updateButtonListener(JButton btn, OutputPanel outputPanel) {
+	public void updateButtonListener(JButton btn) {
 		btn.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				saveEditedInfo(outputPanel);
-				lockEditFields(outputPanel);
+				saveEditedInfo();
+				lockEditFields();
 				objectToDocument();
-				updateDocument();			
+				updateDocument();
+				
+				outputPanel.getUpdateBtn().setEnabled(false);
 				}
 		});
 	}
 	/*
 	 * METHODS
 	 */
+
 	
-	private void setTextToOutputFields(OutputPanel outputPanel) {
-		outputPanel.getNameField().setText(this.patient.getLastName() + ", " + this.patient.getFirstName());
+	/**
+	 * Fills the output text fields with data from a patient object
+	 */
+	private void setTextToOutputFields() {
+		outputPanel.getFnameField().setText(this.patient.getFirstName());
+		outputPanel.getLnameField().setText(this.patient.getLastName());
 		outputPanel.getAddressField().setText(this.patient.getAddress());
 		outputPanel.getDateOfBirthField().setText(this.patient.getDateOfBirth());
 		outputPanel.getPhoneField().setText(this.patient.getTelephone());
@@ -121,8 +144,9 @@ public class OutputPanelMethods extends Logging {
 	}
 	
 	
-	private void openFieldsForEdit(OutputPanel outputPanel) {
-
+	private void openFieldsForEdit() {
+		outputPanel.getFnameField().setEditable(true);
+		outputPanel.getLnameField().setEditable(true);
 		outputPanel.getAddressField().setEditable(true);
 		outputPanel.getDateOfBirthField().setEditable(true);
 		outputPanel.getPhoneField().setEditable(true);
@@ -131,7 +155,9 @@ public class OutputPanelMethods extends Logging {
 		outputPanel.getPrescriptionReasonField().setEditable(true);
 	}
 	
-	private void lockEditFields(OutputPanel outputPanel) {
+	private void lockEditFields() {
+		outputPanel.getFnameField().setEditable(false);
+		outputPanel.getLnameField().setEditable(false);
 		outputPanel.getAddressField().setEditable(false);
 		outputPanel.getDateOfBirthField().setEditable(false);
 		outputPanel.getPhoneField().setEditable(false);
@@ -140,9 +166,11 @@ public class OutputPanelMethods extends Logging {
 		outputPanel.getPrescriptionReasonField().setEditable(false);
 	}
 	
-	private void saveEditedInfo(OutputPanel outputPanel) {
+	private void saveEditedInfo() {
 		patient = new PatientObject();
 		
+		patient.setFirstName(outputPanel.getFnameField().getText());
+		patient.setLastName(outputPanel.getLnameField().getText());
 		patient.setAddress(outputPanel.getAddressField().getText());
 		patient.setDateOfBirth(outputPanel.getDateOfBirthField().getText());
 		patient.setTelephone(outputPanel.getPhoneField().getText());
@@ -159,7 +187,6 @@ public class OutputPanelMethods extends Logging {
 	 * @param document
 	 */
 	public void updateDocument() {
-
 		collection.replaceOne(document, newDocument);
 	}
 	
@@ -169,6 +196,28 @@ public class OutputPanelMethods extends Logging {
 	 * INHERITED METHODS
 	 */
 
+	/**
+	 * Grabs all the data from a document and inserts it into a PatientObject
+	 */
+	@Override
+	public void documentToObject() {		
+		while(iterator.hasNext()) {
+			this.document = iterator.next();
+			patient = new PatientObject();
+			
+			this.patient.setFirstName(document.getString("first_name"));
+			this.patient.setLastName(document.getString("last_name"));
+			this.patient.setAddress(document.getString("address"));
+			this.patient.setDateOfBirth(document.getString("DoB"));
+			this.patient.setTelephone(document.getString("phone"));
+			this.patient.setPatientLog(document.getString("patient_log"));
+			this.patient.setPrescription(document.getString("prescription"));
+			this.patient.setPrescriptionReason(document.getString("prescription_reason"));
+			this.patient.setSignedBy(document.getString("signature"));
+		}
+		
+	}
+	
 	@Override
 	public void createLoggingObject() {
 		
@@ -190,26 +239,7 @@ public class OutputPanelMethods extends Logging {
 				.append("signature", patient.getSignedBy());		
 	}
 
-	@Override
-	public void documentToObject() {
-		Iterator<Document> iterator = connection.getCollection().find().iterator();
-		
-		while(iterator.hasNext()) {
-			this.document = iterator.next();
-			patient = new PatientObject();
-			
-			this.patient.setFirstName(document.getString("first_name"));
-			this.patient.setLastName(document.getString("last_name"));
-			this.patient.setAddress(document.getString("address"));
-			this.patient.setDateOfBirth(document.getString("DoB"));
-			this.patient.setTelephone(document.getString("phone"));
-			this.patient.setPatientLog(document.getString("patient_log"));
-			this.patient.setPrescription(document.getString("prescription"));
-			this.patient.setPrescriptionReason(document.getString("prescription_reason"));
-			this.patient.setSignedBy(document.getString("signature"));
-		}
-		
-	}
+
 
 	/*
 	 * GETERS AND SETTERS
@@ -247,9 +277,21 @@ public class OutputPanelMethods extends Logging {
 		this.connection = connection;
 	}
 
+	public OutputPanel getOutputPanel() {
+		return outputPanel;
+	}
+
+	public void setOutputPanel(OutputPanel outputPanel) {
+		this.outputPanel = outputPanel;
+	}
+
+	public Iterator<Document> getIterator() {
+		return iterator;
+	}
+
+	public void setIterator(Iterator<Document> iterator) {
+		this.iterator = iterator;
+	}
 
 	
-	
-	
-
 }

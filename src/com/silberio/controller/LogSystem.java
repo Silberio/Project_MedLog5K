@@ -1,5 +1,11 @@
 package com.silberio.controller;
 
+import java.util.Iterator;
+import java.util.PriorityQueue;
+
+import org.bson.Document;
+
+import com.silberio.model.PatientObject;
 import com.silberio.view.UserInterfaceMethods;
 import com.silberio.view.graphical.MainGUIWindow;
 import com.silberio.view.graphical.control.InputPanelMethods;
@@ -27,9 +33,15 @@ public class LogSystem {
 	private InputPanelMethods inputMethods = InputPanelMethods.getInstance();
 	private OutputPanelMethods outputMethods = OutputPanelMethods.getInstance();
 	private ListPanelMethods listMethods = ListPanelMethods.getInstance();
-	
+		
 	private MainGUIWindow gui;
+	private PriorityQueue<PatientObject> patientQueue = null;
 
+	private Document document = null;
+	private PatientObject patient = null;
+
+	Iterator<Document> iterator = null;
+	
 	/*
 	 * MAINFRAME SYSTEM
 	 */
@@ -42,9 +54,10 @@ public class LogSystem {
 		connection.getCollection();
 		
 		initGUISystem();
+		initIterator();
 		initInternalMethods();
 		initButtonListeners();
-	}
+		}
 
 	public void printDocuments() {
 		ui.printDocuments(connection, "PatientCollection");
@@ -56,21 +69,33 @@ public class LogSystem {
 
 	}
 	
+	/**
+	 * Global iterator initialization
+	 */
+	private void initIterator() {
+		iterator = connection.getCollection().find().iterator();
+
+		outputMethods.setIterator(iterator);
+		listMethods.setIterator(iterator);
+	}
+	
 	private void initInternalMethods() {
-		inputMethods.setInputPanel(gui.getInputPanel());
+		
 		inputMethods.setCollection(connection.getCollection());
 		inputMethods.setConnection(connection);
+		inputMethods.setInputPanel(gui.getInputPanel());
 		
 		outputMethods.setCollection(connection.getCollection());
 		outputMethods.setConnection(connection);
+		outputMethods.setOutputPanel(gui.getOutputPanel());
 		
 		listMethods.setCollection(connection.getCollection());
 		listMethods.setConnection(connection);
 		
 		listMethods.setListPanel(gui.getListPanel());
 		listMethods.setInputPanel(gui.getInputPanel());
-		listMethods.loadPatientQueue();
-		listMethods.displayPatientsFromDatabase();
+//		listMethods.loadPatientQueue();
+//		listMethods.displayPatientsFromDatabase();
 	}
 	
 	private void initButtonListeners() {
@@ -78,16 +103,15 @@ public class LogSystem {
 		//Input button
 		inputMethods.inputButtonListener(gui.getInputPanel().getInputBtn());
 //		listMethods.insertPatientToList(gui.getInputPanel().getInputBtn(), gui.getListPanel());
-		
+
 		//Retrieve button
-		outputMethods.retrieveButtonListener(gui.getOutputPanel().getRetrieveBtn(), gui.getOutputPanel());
+		outputMethods.retrieveButtonListener(gui.getOutputPanel().getRetrieveBtn());
 		//Edit button
-		outputMethods.editButtonListener(gui.getOutputPanel().getEditBtn(), gui.getOutputPanel());
+		outputMethods.editButtonListener(gui.getOutputPanel().getEditBtn());
 		
 		//Update button
-		outputMethods.updateButtonListener(gui.getOutputPanel().getUpdateBtn(), gui.getOutputPanel());
+		outputMethods.updateButtonListener(gui.getOutputPanel().getUpdateBtn());
 		
-		System.out.println("buttons initiated");
 	}
 
 

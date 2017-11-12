@@ -36,7 +36,7 @@ public class OutputPanel extends JPanel {
 	 */
 	private final MedLogTan MLTAN = new MedLogTan();
 	private JLabel label;
-	private JTextArea nameField, addressField, dateOfBirthField, phoneField, logField, prescriptionField, prescriptionReasonField, signatureField;
+	private JTextArea fnameField, lnameField, addressField, dateOfBirthField, phoneField, logField, prescriptionField, prescriptionReasonField, signatureField;
 	private JButton retrieveBtn = new JButton("Retrieve Patient");
 	private JButton outputBtn = new JButton("Remove Patient");
 	private JButton editBtn = new JButton("Edit File");
@@ -58,73 +58,80 @@ public class OutputPanel extends JPanel {
 		this.add(outputLabel("Name: "), gbc);
 		gbc.gridx = 0;
 		gbc.gridy = 1;
-		this.add(nameField = new JTextArea(1,20), gbc);
-		this.nameField.setEditable(false);
-		
+		this.add(fnameField = new JTextArea(1,5), gbc);
+		this.fnameField.setEditable(false);
 		gbc.gridx = 0;
 		gbc.gridy = 2;
-		this.add(outputLabel("Address: "), gbc);
+		this.add(lnameField = new JTextArea(1,10), gbc);
+		this.lnameField.setEditable(false);
+		
+		
 		gbc.gridx = 0;
 		gbc.gridy = 3;
+		this.add(outputLabel("Address: "), gbc);
+		gbc.gridx = 0;
+		gbc.gridy = 4;
 		this.add(addressField = new JTextArea(1,20), gbc);
 		this.addressField.setEditable(false);
 		
 		gbc.gridx = 0;
-		gbc.gridy = 4;
+		gbc.gridy = 5;
 		this.add(outputLabel("D.o.B.: "), gbc);
 		gbc.gridx = 0;
-		gbc.gridy = 5;
+		gbc.gridy = 6;
 		this.add(dateOfBirthField = new JTextArea(1,20), gbc);
 		this.dateOfBirthField.setEditable(false);
 		
 		gbc.gridx = 0;
-		gbc.gridy = 6;
+		gbc.gridy = 7;
 		this.add(outputLabel("Telephone: "), gbc);
 		gbc.gridx = 0;
-		gbc.gridy = 7;
+		gbc.gridy = 8;
 		this.add(phoneField = new JTextArea(1,20), gbc);
 		this.phoneField.setEditable(false);
 		
 		gbc.gridx = 0;
-		gbc.gridy = 8;
+		gbc.gridy = 9;
 		this.add(outputLabel("Patient Log: "), gbc);
 		gbc.gridx = 0;
-		gbc.gridy = 9;
+		gbc.gridy = 10;
 		this.add(logField = new JTextArea(8,10), gbc);
 		this.logField.setEditable(false);
 		
 		gbc.gridx = 0;
-		gbc.gridy = 10;
+		gbc.gridy = 11;
 		this.add(outputLabel("Prescription: "), gbc);
 		gbc.gridx = 0;
-		gbc.gridy = 11;
+		gbc.gridy = 12;
 		this.add(prescriptionField = new JTextArea(1,5), gbc);
 		this.prescriptionField.setEditable(false);
 		
 		gbc.gridx = 0;
-		gbc.gridy = 12;
-		this.add(outputLabel("Prescription Reson: "), gbc);
-		gbc.gridx = 0;
 		gbc.gridy = 13;
+		this.add(outputLabel("Prescription Reason: "), gbc);
+		gbc.gridx = 0;
+		gbc.gridy = 14;
 		this.add(prescriptionReasonField = new JTextArea(4,5), gbc);
 		this.prescriptionReasonField.setEditable(false);
 	
 		
 		gbc.gridx = 0;
-		gbc.gridy = 14;
+		gbc.gridy = 15;
 		this.add(retrieveBtn, gbc);	
 		
 		gbc.gridx = 0;
-		gbc.gridy = 15;
+		gbc.gridy = 16;
 		this.add(outputBtn, gbc);	
 		
 		gbc.gridx = 1;
-		gbc.gridy = 14;
+		gbc.gridy = 15;
 		this.add(editBtn, gbc);
+		editBtn.setEnabled(false);
 		
 		gbc.gridx = 1;
-		gbc.gridy = 15;
+		gbc.gridy = 16;
 		this.add(updateBtn, gbc);
+		updateBtn.setEnabled(false);
 	}	
 	
 
@@ -138,21 +145,29 @@ public class OutputPanel extends JPanel {
 	 * GETTERS AND SETTERS
 	 */
 
-
-	public JTextArea getNameField() {
-		return nameField;
+	public JTextArea getFnameField() {
+		return fnameField;
 	}
 
 
-	public void setNameField(JTextArea nameField) {
-		this.nameField = nameField;
+	public void setFnameField(JTextArea fnameField) {
+		this.fnameField = fnameField;
 	}
 
 
+	public JTextArea getLnameField() {
+		return lnameField;
+	}
+
+
+	public void setLnameField(JTextArea lnameField) {
+		this.lnameField = lnameField;
+	}
+
+	
 	public JTextArea getAddressField() {
 		return addressField;
 	}
-
 
 	public void setAddressField(JTextArea addressField) {
 		this.addressField = addressField;

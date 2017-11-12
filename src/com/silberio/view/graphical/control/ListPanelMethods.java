@@ -85,17 +85,11 @@ public class ListPanelMethods {
 		// Patient Object is instantiated
 	}
 	
-	private Iterator<Document> documentIterator() {
-		iterator = connection.getCollection().find().iterator();
-
-		return iterator;
-	}
-	
 	
 	public void displayPatientsFromDatabase() {
 		
-		while(documentIterator().hasNext()) {
-			this.document = documentIterator().next();
+		while(iterator.hasNext()) {
+			this.document = iterator.next();
 			patient = new PatientObject();
 			
 			this.patient.setFirstName(document.getString("first_name"));
@@ -117,8 +111,8 @@ public class ListPanelMethods {
 	 */
 	public void loadPatientQueue() {
 		
-		while(documentIterator().hasNext()) {
-			this.document = documentIterator().next();
+		while(iterator.hasNext()) {
+			this.document = iterator.next();
 			patient = new PatientObject();
 			
 			this.patient.setFirstName(document.getString("first_name"));
@@ -189,5 +183,15 @@ public class ListPanelMethods {
 	public void setDocument(Document document) {
 		this.document = document;
 	}
+
+	public Iterator<Document> getIterator() {
+		return iterator;
+	}
+
+	public void setIterator(Iterator<Document> iterator) {
+		this.iterator = iterator;
+	}
+	
+	
 
 	}

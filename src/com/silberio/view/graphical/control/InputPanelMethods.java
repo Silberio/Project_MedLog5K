@@ -67,7 +67,6 @@ public class InputPanelMethods extends Logging {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("privet mir");
 
 				/*
 				 * this gets all the info from the GUI and inserts into each parameter of the
@@ -79,20 +78,24 @@ public class InputPanelMethods extends Logging {
 				createLoggingObject();
 				
 				//insert document object to database
-				insertDocument(document);
+				insertDocument();
 
 				// clear GUI
 				clearGUIFields();
+				
+				//set priority
+				setPriorityPatient();
+				
+				
 			}
 		});
 	}
 	
-	public void setPriorityPatient(InputPanel inputPanel) {
+	public void setPriorityPatient() {
 		inputPanel.getPriorityCheck();
 		
 		if(inputPanel.getPriorityCheck().isSelected()) {
 			patient.setPrio(1);
-			System.out.println(patient.getPrio());
 		}
 	}
 
@@ -114,6 +117,7 @@ public class InputPanelMethods extends Logging {
 		patient.setPrescriptionReason(inputPanel.getPrescriptionReason().getText());
 		patient.setSignedBy(inputPanel.getSignature().getText());
 		// Patient Object is instantiated
+		
 	}
 	
 	/**
@@ -134,17 +138,6 @@ public class InputPanelMethods extends Logging {
 	}
 	
 	
-
-	/**
-	 * inserts a document into a collection
-	 * 
-	 * @param collection
-	 * @param document
-	 */
-	public void insertDocument(Document document) {
-
-		collection.insertOne(document);
-	}
 	
 	/*
 	 * INHERITED METHODS
@@ -167,6 +160,17 @@ public class InputPanelMethods extends Logging {
 				.append("prescription", patient.getPrescription())
 				.append("prescription_reason", patient.getPrescriptionReason())
 				.append("signature", patient.getSignedBy());
+	}
+	
+	/**
+	 * inserts a document into a collection
+	 * 
+	 * @param collection
+	 * @param document
+	 */
+	public void insertDocument() {
+		
+		collection.insertOne(document);
 	}
 
 
