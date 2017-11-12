@@ -2,9 +2,15 @@ package com.silberio.view.graphical.control;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Iterator;
+import java.util.PriorityQueue;
 
 import javax.swing.JButton;
 
+import org.bson.Document;
+
+import com.mongodb.client.MongoCollection;
+import com.silberio.controller.DatabaseConnection;
 import com.silberio.model.PatientObject;
 import com.silberio.view.graphical.model.InputPanel;
 import com.silberio.view.graphical.model.ListPanel;
@@ -28,6 +34,13 @@ public class ListPanelMethods {
 	private ListPanel listPanel = new ListPanel();
 	private InputPanel inputPanel = new InputPanel();
 	
+	private MongoCollection<Document> collection = null;
+	private Document document = null;
+	private DatabaseConnection connection = null;
+	
+	private PriorityQueue<PatientObject> queue = new PriorityQueue<>();
+	private Iterator<Document> iterator = null;
+	
 	/**
 	 * Button listener to display a patient toString in the GUI list
 	 * @param btn
@@ -38,9 +51,10 @@ public class ListPanelMethods {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				instantiatePatientObjectFromGUIInfo();
 				setListPanel(listPanel);
-				displayPatientOnList();
+				instantiatePatientObjectFromGUIInfo();
+				System.out.println(queue.peek());
+				//displayPatientOnList();
 			}
 		});
 	}
@@ -71,10 +85,56 @@ public class ListPanelMethods {
 		// Patient Object is instantiated
 	}
 	
+	private Iterator<Document> documentIterator() {
+		iterator = connection.getCollection().find().iterator();
+
+		return iterator;
+	}
+	
+	
 	public void displayPatientsFromDatabase() {
+		
+		while(documentIterator().hasNext()) {
+			this.document = documentIterator().next();
+			patient = new PatientObject();
+			
+			this.patient.setFirstName(document.getString("first_name"));
+			this.patient.setLastName(document.getString("last_name"));
+			this.patient.setAddress(document.getString("address"));
+			this.patient.setDateOfBirth(document.getString("DoB"));
+			this.patient.setTelephone(document.getString("phone"));
+			this.patient.setPatientLog(document.getString("patient_log"));
+			this.patient.setPrescription(document.getString("prescription"));
+			this.patient.setPrescriptionReason(document.getString("prescription_reason"));
+			this.patient.setSignedBy(document.getString("signature"));
+			
+		}
 		
 	}
 
+	/**
+	 * initiates the internal queue with patient objects
+	 */
+	public void loadPatientQueue() {
+		
+		while(documentIterator().hasNext()) {
+			this.document = documentIterator().next();
+			patient = new PatientObject();
+			
+			this.patient.setFirstName(document.getString("first_name"));
+			this.patient.setLastName(document.getString("last_name"));
+			this.patient.setAddress(document.getString("address"));
+			this.patient.setDateOfBirth(document.getString("DoB"));
+			this.patient.setTelephone(document.getString("phone"));
+			this.patient.setPatientLog(document.getString("patient_log"));
+			this.patient.setPrescription(document.getString("prescription"));
+			this.patient.setPrescriptionReason(document.getString("prescription_reason"));
+			this.patient.setSignedBy(document.getString("signature"));
+			
+			queue.add(patient);
+			}
+	}
+	
 	/*
 	 * GETTERS AND SETTERS
 	 */
@@ -106,6 +166,28 @@ public class ListPanelMethods {
 		this.inputPanel = inputPanel;
 	}
 
-	
+	public DatabaseConnection getConnection() {
+		return connection;
+	}
+
+	public void setConnection(DatabaseConnection connection) {
+		this.connection = connection;
+	}
+
+	public MongoCollection<Document> getCollection() {
+		return collection;
+	}
+
+	public void setCollection(MongoCollection<Document> collection) {
+		this.collection = collection;
+	}
+
+	public Document getDocument() {
+		return document;
+	}
+
+	public void setDocument(Document document) {
+		this.document = document;
+	}
 
 	}

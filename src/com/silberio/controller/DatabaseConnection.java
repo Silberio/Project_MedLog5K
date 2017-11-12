@@ -69,7 +69,7 @@ public class DatabaseConnection implements Serializable {
 
 		// Accessing the database
 		database = mongo.getDatabase("MedLogDB");
-		System.out.println("Credentials ::" + credential);
+		System.out.println("Credentials ::" + credential.toString());
 	}
 
 	/**

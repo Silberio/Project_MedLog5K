@@ -46,7 +46,8 @@ public class InputPanelMethods extends Logging {
 	private MongoCollection<Document> collection = null;
 	private Document document = null;
 	private DatabaseConnection connection = null;
-
+	private InputPanel inputPanel = null;
+	
 	/*
 	 * ACTION LISTENERS FOR INPUT BUTTONS
 	 */
@@ -59,32 +60,40 @@ public class InputPanelMethods extends Logging {
 	 * </p>
 	 * 
 	 * @param btn
-	 *            the target button to append the listener to
 	 * @param inputPanel
-	 *            the panel in which the button is
 	 */
-	public void inputButtonListener(JButton btn, InputPanel inputPanel) {
+	public void inputButtonListener(JButton btn) {
 		btn.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				System.out.println("privet mir");
 
 				/*
 				 * this gets all the info from the GUI and inserts into each parameter of the
 				 * instantiatePatientObjectFromGUIInfo() method
 				 */
-				instantiatePatientObjectFromGUIInfo(inputPanel);
+				instantiatePatientObjectFromGUIInfo();
 				
 				//create a document from patient object
 				createLoggingObject();
 				
 				//insert document object to database
-//				insertDocument(document);
+				insertDocument(document);
 
 				// clear GUI
-				clearGUIFields(inputPanel);
+				clearGUIFields();
 			}
 		});
+	}
+	
+	public void setPriorityPatient(InputPanel inputPanel) {
+		inputPanel.getPriorityCheck();
+		
+		if(inputPanel.getPriorityCheck().isSelected()) {
+			patient.setPrio(1);
+			System.out.println(patient.getPrio());
+		}
 	}
 
 
@@ -92,7 +101,7 @@ public class InputPanelMethods extends Logging {
 	 * Instantiates a new patient object with input information
 	 * 
 	 */
-	private void instantiatePatientObjectFromGUIInfo(InputPanel inputPanel) {
+	private void instantiatePatientObjectFromGUIInfo( ) {
 
 		patient = new PatientObject();
 		patient.setFirstName(inputPanel.getfNameField().getText());
@@ -112,7 +121,7 @@ public class InputPanelMethods extends Logging {
 	 * 
 	 * @param inputPanel The target input panel
 	 */
-	private void clearGUIFields(InputPanel inputPanel) {
+	private void clearGUIFields( ) {
 		inputPanel.getfNameField().setText("");
 		inputPanel.getlNameField().setText("");
 		inputPanel.getDobField().setText("");
@@ -123,6 +132,8 @@ public class InputPanelMethods extends Logging {
 		inputPanel.getPrescriptionReason().setText("");
 		inputPanel.getSignature().setText("");
 	}
+	
+	
 
 	/**
 	 * inserts a document into a collection
@@ -180,7 +191,7 @@ public class InputPanelMethods extends Logging {
 			this.patient.setTelephone(document.getString("phone"));
 			this.patient.setPatientLog(document.getString("patient_log"));
 			this.patient.setPrescription(document.getString("prescription"));
-			this.patient.setPrescriptionReason(document.getString("presc_reson"));
+			this.patient.setPrescriptionReason(document.getString("prescription_reason"));
 			this.patient.setSignedBy(document.getString("signature"));
 		}
 	}
@@ -225,8 +236,14 @@ public class InputPanelMethods extends Logging {
 	public void setConnection(DatabaseConnection connection) {
 		this.connection = connection;
 	}
-	
-	
-	
+
+	public InputPanel getInputPanel() {
+		return inputPanel;
+	}
+
+	public void setInputPanel(InputPanel inputPanel) {
+		this.inputPanel = inputPanel;
+	}
+
 	
 }

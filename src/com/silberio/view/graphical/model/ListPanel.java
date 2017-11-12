@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.DefaultListModel;
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -41,14 +42,13 @@ public class ListPanel extends JPanel {
 		pane.setPreferredSize(new Dimension(320,400));
 		
 		
-		
-		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setLayoutOrientation(JList.VERTICAL);
 		list.setVisibleRowCount(25);
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		this.add(pane, gbc);
-		}
+	}
 
 	/*
 	 * GETTERS AND SETTERS 
@@ -70,6 +70,4 @@ public class ListPanel extends JPanel {
 		this.model = model;
 	}
 	
-	
-
 }	

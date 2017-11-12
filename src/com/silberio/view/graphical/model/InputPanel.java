@@ -1,6 +1,5 @@
 package com.silberio.view.graphical.model;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -9,6 +8,7 @@ import java.awt.Insets;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -45,6 +45,7 @@ public class InputPanel extends JPanel {
 	private JLabel label = null;
 	
 	private JButton inputBtn = new JButton("Input Info");
+	private JCheckBox priorityCheck = new JCheckBox("Has priority");
 
 	/**
 	 * JPanel with text fields to fill info for patients.
@@ -124,16 +125,12 @@ public class InputPanel extends JPanel {
 		gbc.weighty = 10;
 		gbc.gridx = 1;
 		gbc.gridy = 11;
-		this.add(inputBtn, gbc);		
+		this.add(inputBtn, gbc);	
+		
+		gbc.gridx = 0;
+		gbc.gridy = 11;
+		this.add(priorityCheck, gbc);	
 
-	}
-
-	public JButton getInputBtn() {
-		return inputBtn;
-	}
-
-	public void setInputBtn(JButton inputBtn) {
-		this.inputBtn = inputBtn;
 	}
 
 
@@ -142,7 +139,15 @@ public class InputPanel extends JPanel {
 	 * GETTERS & SETTERS
 	 * 
 	 */
+	
 
+	public JButton getInputBtn() {
+		return inputBtn;
+	}
+
+	public void setInputBtn(JButton inputBtn) {
+		this.inputBtn = inputBtn;
+	}
 
 	public InputField getfNameField() {
 		return fNameField;
@@ -215,8 +220,13 @@ public class InputPanel extends JPanel {
 	public void setSignature(InputField signature) {
 		this.signature = signature;
 	}
-	
-	
-	
+
+	public JCheckBox getPriorityCheck() {
+		return priorityCheck;
+	}
+
+	public void setPriorityCheck(JCheckBox priorityCheck) {
+		this.priorityCheck = priorityCheck;
+	}
 
 }

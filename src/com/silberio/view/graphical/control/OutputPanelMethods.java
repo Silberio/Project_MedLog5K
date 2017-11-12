@@ -115,7 +115,9 @@ public class OutputPanelMethods extends Logging {
 		outputPanel.getDateOfBirthField().setText(this.patient.getDateOfBirth());
 		outputPanel.getPhoneField().setText(this.patient.getTelephone());
 		outputPanel.getLogField().setText(this.patient.getPatientLog());
-		outputPanel.getPrescriptionField().setText(this.patient.getPrescription() + "\nReason: " + this.patient.getPrescriptionReason());
+		outputPanel.getPrescriptionField().setText(this.patient.getPrescription());
+		outputPanel.getPrescriptionReasonField().setText(this.patient.getPrescriptionReason());
+		
 	}
 	
 	
@@ -126,6 +128,7 @@ public class OutputPanelMethods extends Logging {
 		outputPanel.getPhoneField().setEditable(true);
 		outputPanel.getLogField().setEditable(true);
 		outputPanel.getPrescriptionField().setEditable(true);
+		outputPanel.getPrescriptionReasonField().setEditable(true);
 	}
 	
 	private void lockEditFields(OutputPanel outputPanel) {
@@ -134,6 +137,7 @@ public class OutputPanelMethods extends Logging {
 		outputPanel.getPhoneField().setEditable(false);
 		outputPanel.getLogField().setEditable(false);
 		outputPanel.getPrescriptionField().setEditable(false);
+		outputPanel.getPrescriptionReasonField().setEditable(false);
 	}
 	
 	private void saveEditedInfo(OutputPanel outputPanel) {
@@ -144,6 +148,8 @@ public class OutputPanelMethods extends Logging {
 		patient.setTelephone(outputPanel.getPhoneField().getText());
 		patient.setPatientLog(outputPanel.getLogField().getText());
 		patient.setPrescription(outputPanel.getPrescriptionField().getText());
+		patient.setPrescriptionReason(outputPanel.getPrescriptionReasonField().getText());
+
 	}
 	
 	/**

@@ -36,7 +36,7 @@ public class OutputPanel extends JPanel {
 	 */
 	private final MedLogTan MLTAN = new MedLogTan();
 	private JLabel label;
-	private JTextArea nameField, addressField, dateOfBirthField, phoneField, logField, prescriptionField, signatureField;
+	private JTextArea nameField, addressField, dateOfBirthField, phoneField, logField, prescriptionField, prescriptionReasonField, signatureField;
 	private JButton retrieveBtn = new JButton("Retrieve Patient");
 	private JButton outputBtn = new JButton("Remove Patient");
 	private JButton editBtn = new JButton("Edit File");
@@ -90,7 +90,7 @@ public class OutputPanel extends JPanel {
 		this.add(outputLabel("Patient Log: "), gbc);
 		gbc.gridx = 0;
 		gbc.gridy = 9;
-		this.add(logField = new JTextArea(10,10), gbc);
+		this.add(logField = new JTextArea(8,10), gbc);
 		this.logField.setEditable(false);
 		
 		gbc.gridx = 0;
@@ -98,24 +98,32 @@ public class OutputPanel extends JPanel {
 		this.add(outputLabel("Prescription: "), gbc);
 		gbc.gridx = 0;
 		gbc.gridy = 11;
-		this.add(prescriptionField = new JTextArea(5,5), gbc);
+		this.add(prescriptionField = new JTextArea(1,5), gbc);
 		this.prescriptionField.setEditable(false);
+		
+		gbc.gridx = 0;
+		gbc.gridy = 12;
+		this.add(outputLabel("Prescription Reson: "), gbc);
+		gbc.gridx = 0;
+		gbc.gridy = 13;
+		this.add(prescriptionReasonField = new JTextArea(4,5), gbc);
+		this.prescriptionReasonField.setEditable(false);
 	
 		
 		gbc.gridx = 0;
-		gbc.gridy = 12;
+		gbc.gridy = 14;
 		this.add(retrieveBtn, gbc);	
 		
 		gbc.gridx = 0;
-		gbc.gridy = 13;
+		gbc.gridy = 15;
 		this.add(outputBtn, gbc);	
 		
 		gbc.gridx = 1;
-		gbc.gridy = 12;
+		gbc.gridy = 14;
 		this.add(editBtn, gbc);
 		
 		gbc.gridx = 1;
-		gbc.gridy = 13;
+		gbc.gridy = 15;
 		this.add(updateBtn, gbc);
 	}	
 	
@@ -188,6 +196,16 @@ public class OutputPanel extends JPanel {
 
 	public void setPrescriptionField(JTextArea prescriptionField) {
 		this.prescriptionField = prescriptionField;
+	}
+	
+
+	public JTextArea getPrescriptionReasonField() {
+		return prescriptionReasonField;
+	}
+
+
+	public void setPrescriptionReasonField(JTextArea prescriptionReasonField) {
+		this.prescriptionReasonField = prescriptionReasonField;
 	}
 
 

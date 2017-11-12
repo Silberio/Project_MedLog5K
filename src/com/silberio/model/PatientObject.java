@@ -1,19 +1,12 @@
 package com.silberio.model;
 
-import java.io.Serializable;
-
-import org.bson.types.ObjectId;
-
-import com.mongodb.BasicDBObject;
-import com.mongodb.client.MongoCollection;
-
 /**
  * A patient object
  * 
  * @author silberio_stalone
  *
  */
-public class PatientObject implements Serializable{
+public class PatientObject implements Comparable<PatientObject>{
 	/**
 	 * 
 	 */
@@ -27,6 +20,8 @@ public class PatientObject implements Serializable{
 	private String signedBy;
 	private String prescription;
 	private String prescriptionReason;
+	
+	private int prio = 0;
 	
 	public PatientObject() {
 
@@ -136,8 +131,14 @@ public class PatientObject implements Serializable{
 		this.prescriptionReason = prescriptionReason;
 	}
 	
-	
-	
+
+	public int getPrio() {
+		return prio;
+	}
+
+	public void setPrio(int prio) {
+		this.prio = prio;
+	}
 
 	/**
 	 * Patient toString() representation
@@ -147,4 +148,16 @@ public class PatientObject implements Serializable{
 		String str = "Patient: " + lastName + ", " + firstName + ". Signed by: " + signedBy;
 		return str;
 	}
+
+	@Override
+	public int compareTo(PatientObject o) {
+		if(this.equals(o)) {
+			return 0;
+		} else if(getPrio() > o.getPrio()) {
+			return 1;
+		} else
+			return -1;
+	}
+
+
 }

@@ -39,8 +39,6 @@ public class MainGUIWindow {
 		panelEast = new JPanel();
 		panelCenter = new JPanel();
 		panelSouth = new JPanel();
-		
-
 	}
 	
 	/**
