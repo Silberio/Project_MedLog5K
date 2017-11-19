@@ -3,6 +3,7 @@ package com.silberio.view.graphical.control;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Iterator;
+import java.util.PriorityQueue;
 
 import javax.swing.JButton;
 
@@ -10,6 +11,7 @@ import org.bson.Document;
 
 import com.mongodb.client.MongoCollection;
 import com.silberio.controller.DatabaseConnection;
+import com.silberio.controller.InternalQueueSystem;
 import com.silberio.controller.Logging;
 import com.silberio.model.PatientObject;
 import com.silberio.view.graphical.model.InputPanel;
@@ -47,7 +49,7 @@ public class InputPanelMethods extends Logging {
 	private Document document = null;
 	private DatabaseConnection connection = null;
 	private InputPanel inputPanel = null;
-	
+	private PriorityQueue<PatientObject> queue;
 	/*
 	 * ACTION LISTENERS FOR INPUT BUTTONS
 	 */
@@ -84,11 +86,17 @@ public class InputPanelMethods extends Logging {
 				clearGUIFields();
 				
 				//set priority
-				setPriorityPatient();
+				setPriorityPatient();	
 				
-				
+				//adds a patient object to the priorityqueue
+				addPatientToqueue();
 			}
 		});
+	}
+	
+	private void addPatientToqueue() {
+		queue.offer(patient);
+		System.out.println(patient.toString() + " :: added");
 	}
 	
 	public void setPriorityPatient() {
@@ -249,5 +257,12 @@ public class InputPanelMethods extends Logging {
 		this.inputPanel = inputPanel;
 	}
 
+	public PriorityQueue getQueue() {
+		return queue;
+	}
+
+	public void setQueue(PriorityQueue queue) {
+		this.queue = queue;
+	}
 	
 }

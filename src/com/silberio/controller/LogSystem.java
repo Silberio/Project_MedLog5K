@@ -1,5 +1,6 @@
 package com.silberio.controller;
 
+import java.awt.im.spi.InputMethod;
 import java.util.Iterator;
 import java.util.PriorityQueue;
 
@@ -11,6 +12,7 @@ import com.silberio.view.graphical.MainGUIWindow;
 import com.silberio.view.graphical.control.InputPanelMethods;
 import com.silberio.view.graphical.control.ListPanelMethods;
 import com.silberio.view.graphical.control.OutputPanelMethods;
+import com.silberio.view.graphical.model.InputPanel;
 
 public class LogSystem {
 
@@ -33,12 +35,9 @@ public class LogSystem {
 	private InputPanelMethods inputMethods = InputPanelMethods.getInstance();
 	private OutputPanelMethods outputMethods = OutputPanelMethods.getInstance();
 	private ListPanelMethods listMethods = ListPanelMethods.getInstance();
-		
-	private MainGUIWindow gui;
-	private PriorityQueue<PatientObject> patientQueue = null;
+	private InternalQueueSystem queueSystem = InternalQueueSystem.getInstance();
 
-	private Document document = null;
-	private PatientObject patient = null;
+	private MainGUIWindow gui;
 
 	Iterator<Document> iterator = null;
 	
@@ -79,11 +78,20 @@ public class LogSystem {
 		listMethods.setIterator(iterator);
 	}
 	
+	/**
+	 * Initiates all methods to be used by internal classes,
+	 * such as methods for input, output and the graphical
+	 * list 
+	 * <p>
+	 * 
+	 * </p>
+	 */
 	private void initInternalMethods() {
 		
 		inputMethods.setCollection(connection.getCollection());
 		inputMethods.setConnection(connection);
 		inputMethods.setInputPanel(gui.getInputPanel());
+		inputMethods.setQueue(queueSystem.getPatientQueue());
 		
 		outputMethods.setCollection(connection.getCollection());
 		outputMethods.setConnection(connection);
@@ -94,16 +102,15 @@ public class LogSystem {
 		
 		listMethods.setListPanel(gui.getListPanel());
 		listMethods.setInputPanel(gui.getInputPanel());
-//		listMethods.loadPatientQueue();
-//		listMethods.displayPatientsFromDatabase();
-	}
+		
+		outputMethods.setqSys(this.queueSystem);
+		}
 	
 	private void initButtonListeners() {
 
 		//Input button
 		inputMethods.inputButtonListener(gui.getInputPanel().getInputBtn());
-//		listMethods.insertPatientToList(gui.getInputPanel().getInputBtn(), gui.getListPanel());
-
+		
 		//Retrieve button
 		outputMethods.retrieveButtonListener(gui.getOutputPanel().getRetrieveBtn());
 		//Edit button
@@ -113,6 +120,19 @@ public class LogSystem {
 		outputMethods.updateButtonListener(gui.getOutputPanel().getUpdateBtn());
 		
 	}
+
+	/*
+	 * GETTERES AND SETTERS
+	 */
+	public InternalQueueSystem getQueueSystem() {
+		return queueSystem;
+	}
+
+	public void setQueueSystem(InternalQueueSystem queueSystem) {
+		this.queueSystem = queueSystem;
+	}
+	
+	
 
 
 }

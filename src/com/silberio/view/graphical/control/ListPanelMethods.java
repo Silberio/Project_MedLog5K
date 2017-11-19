@@ -38,7 +38,6 @@ public class ListPanelMethods {
 	private Document document = null;
 	private DatabaseConnection connection = null;
 	
-	private PriorityQueue<PatientObject> queue = new PriorityQueue<>();
 	private Iterator<Document> iterator = null;
 	
 	/**
@@ -53,7 +52,6 @@ public class ListPanelMethods {
 			public void actionPerformed(ActionEvent e) {
 				setListPanel(listPanel);
 				instantiatePatientObjectFromGUIInfo();
-				System.out.println(queue.peek());
 				//displayPatientOnList();
 			}
 		});
@@ -124,8 +122,6 @@ public class ListPanelMethods {
 			this.patient.setPrescription(document.getString("prescription"));
 			this.patient.setPrescriptionReason(document.getString("prescription_reason"));
 			this.patient.setSignedBy(document.getString("signature"));
-			
-			queue.add(patient);
 			}
 	}
 	

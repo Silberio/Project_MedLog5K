@@ -3,6 +3,7 @@ package com.silberio.view.graphical.control;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Iterator;
+import java.util.PriorityQueue;
 
 import javax.swing.JButton;
 
@@ -10,6 +11,7 @@ import org.bson.Document;
 
 import com.mongodb.client.MongoCollection;
 import com.silberio.controller.DatabaseConnection;
+import com.silberio.controller.InternalQueueSystem;
 import com.silberio.controller.Logging;
 import com.silberio.model.PatientObject;
 import com.silberio.view.graphical.model.OutputPanel;
@@ -38,7 +40,7 @@ public class OutputPanelMethods extends Logging {
 	private DatabaseConnection connection = null;
 	private OutputPanel outputPanel = null;
 	private Iterator<Document> iterator = null;
-
+	private InternalQueueSystem qSys = null;
 	/*
 	 * BUTTON LISTENERS
 	 */
@@ -58,6 +60,8 @@ public class OutputPanelMethods extends Logging {
 				
 				outputPanel.getEditBtn().setEnabled(true);
 				outputPanel.getUpdateBtn().setEnabled(true);
+				
+				System.out.println(qSys.getPatientQueue().peek());
 			}
 		});
 	}
@@ -82,6 +86,8 @@ public class OutputPanelMethods extends Logging {
 				outputPanel.getLogField().setText("");
 				outputPanel.getPrescriptionField().setText("");
 				outputPanel.getPrescriptionReasonField().setText("");
+				
+				qSys.getPatientQueue().poll();
 			}
 		});
 	}
@@ -126,6 +132,11 @@ public class OutputPanelMethods extends Logging {
 	/*
 	 * METHODS
 	 */
+	
+	private void removeHeadPatient() {
+		System.out.println(qSys.getPatientQueue().peek() + " :: removed");
+		qSys.getPatientQueue().offer(patient);
+	}
 
 	
 	/**
@@ -293,5 +304,14 @@ public class OutputPanelMethods extends Logging {
 		this.iterator = iterator;
 	}
 
+	public InternalQueueSystem getqSys() {
+		return qSys;
+	}
+
+	public void setqSys(InternalQueueSystem qSys) {
+		this.qSys = qSys;
+	}
+
+	
 	
 }
