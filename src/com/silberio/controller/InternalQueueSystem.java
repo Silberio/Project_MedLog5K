@@ -2,6 +2,7 @@ package com.silberio.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Iterator;
 import java.util.PriorityQueue;
 
 import javax.swing.JButton;
@@ -30,10 +31,26 @@ public class InternalQueueSystem {
 	
 	private PriorityQueue<PatientObject> patientQueue = new PriorityQueue<>();
 	private PatientObject patient = null;
-
+	private Document document = null;
+	private Iterator<Document> iterator = null;
 	
 	public void loadQueue() {
-		
+		while(iterator.hasNext()) {
+			this.document = iterator.next();
+			patient = new PatientObject();
+			
+			this.patient.setFirstName(document.getString("first_name"));
+			this.patient.setLastName(document.getString("last_name"));
+			this.patient.setAddress(document.getString("address"));
+			this.patient.setDateOfBirth(document.getString("DoB"));
+			this.patient.setTelephone(document.getString("phone"));
+			this.patient.setPatientLog(document.getString("patient_log"));
+			this.patient.setPrescription(document.getString("prescription"));
+			this.patient.setPrescriptionReason(document.getString("prescription_reason"));
+			this.patient.setSignedBy(document.getString("signature"));
+			
+			patientQueue.offer(patient);
+		}
 	}
 
 	/*
@@ -53,9 +70,12 @@ public class InternalQueueSystem {
 	public void setPatient(PatientObject patient) {
 		this.patient = patient;
 	}
-	
-	
-	
 
-	
+	public Iterator<Document> getIterator() {
+		return iterator;
+	}
+
+	public void setIterator(Iterator<Document> iterator) {
+		this.iterator = iterator;
+	}
 }

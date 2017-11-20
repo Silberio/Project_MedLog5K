@@ -96,7 +96,6 @@ public class InputPanelMethods extends Logging {
 	
 	private void addPatientToqueue() {
 		queue.offer(patient);
-		System.out.println(patient.toString() + " :: added");
 	}
 	
 	public void setPriorityPatient() {

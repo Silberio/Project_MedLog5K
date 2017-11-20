@@ -40,7 +40,8 @@ public class OutputPanelMethods extends Logging {
 	private DatabaseConnection connection = null;
 	private OutputPanel outputPanel = null;
 	private Iterator<Document> iterator = null;
-	private InternalQueueSystem qSys = null;
+	private PriorityQueue<PatientObject> queue;
+
 	/*
 	 * BUTTON LISTENERS
 	 */
@@ -55,14 +56,13 @@ public class OutputPanelMethods extends Logging {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				documentToObject();
+				
+				getNextPatientOnQueue();
 				setTextToOutputFields();
 				
 				outputPanel.getEditBtn().setEnabled(true);
 				outputPanel.getUpdateBtn().setEnabled(true);
-				
-				System.out.println(qSys.getPatientQueue().peek());
-			}
+				}
 		});
 	}
 	
@@ -78,16 +78,8 @@ public class OutputPanelMethods extends Logging {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				outputPanel.getFnameField().setText("");
-				outputPanel.getLnameField().setText("");
-				outputPanel.getAddressField().setText("");
-				outputPanel.getDateOfBirthField().setText("");
-				outputPanel.getPhoneField().setText("");
-				outputPanel.getLogField().setText("");
-				outputPanel.getPrescriptionField().setText("");
-				outputPanel.getPrescriptionReasonField().setText("");
+				clearOutputFields();
 				
-				qSys.getPatientQueue().poll();
 			}
 		});
 	}
@@ -133,11 +125,12 @@ public class OutputPanelMethods extends Logging {
 	 * METHODS
 	 */
 	
-	private void removeHeadPatient() {
-		System.out.println(qSys.getPatientQueue().peek() + " :: removed");
-		qSys.getPatientQueue().offer(patient);
-	}
 
+	
+	private void getNextPatientOnQueue() {
+		this.patient = queue.peek();
+		
+	}
 	
 	/**
 	 * Fills the output text fields with data from a patient object
@@ -189,6 +182,17 @@ public class OutputPanelMethods extends Logging {
 		patient.setPrescription(outputPanel.getPrescriptionField().getText());
 		patient.setPrescriptionReason(outputPanel.getPrescriptionReasonField().getText());
 
+	}
+
+	private void clearOutputFields() {
+		outputPanel.getFnameField().setText("");
+		outputPanel.getLnameField().setText("");
+		outputPanel.getAddressField().setText("");
+		outputPanel.getDateOfBirthField().setText("");
+		outputPanel.getPhoneField().setText("");
+		outputPanel.getLogField().setText("");
+		outputPanel.getPrescriptionField().setText("");
+		outputPanel.getPrescriptionReasonField().setText("");
 	}
 	
 	/**
@@ -304,14 +308,12 @@ public class OutputPanelMethods extends Logging {
 		this.iterator = iterator;
 	}
 
-	public InternalQueueSystem getqSys() {
-		return qSys;
+	public PriorityQueue getQueue() {
+		return queue;
 	}
 
-	public void setqSys(InternalQueueSystem qSys) {
-		this.qSys = qSys;
+	public void setQueue(PriorityQueue queue) {
+		this.queue = queue;
 	}
-
-	
 	
 }

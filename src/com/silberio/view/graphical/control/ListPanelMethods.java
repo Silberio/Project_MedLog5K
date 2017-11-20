@@ -30,100 +30,29 @@ public class ListPanelMethods {
 	 * END SINGLETON INSTANTIATION
 	 */
 	
-	private PatientObject patient =  new PatientObject();
-	private ListPanel listPanel = new ListPanel();
-	private InputPanel inputPanel = new InputPanel();
-	
-	private MongoCollection<Document> collection = null;
-	private Document document = null;
-	private DatabaseConnection connection = null;
-	
-	private Iterator<Document> iterator = null;
-	
+	private PatientObject patient =  null;
+	private ListPanel listPanel = null;
+	private PriorityQueue<PatientObject> queue;
+ 
 	/**
-	 * Button listener to display a patient toString in the GUI list
+	 * Listener for outputPanel button to remove selected patient
+	 * 
 	 * @param btn
+	 * @param outputPanel
 	 * @param listPanel
 	 */
-	public void insertPatientToList(JButton btn, ListPanel listPanel) {
-		btn.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				setListPanel(listPanel);
-				instantiatePatientObjectFromGUIInfo();
-				//displayPatientOnList();
-			}
-		});
-	}
+
 	
 	/**
 	 * displays input patient file in the list
 	 */
-	private void displayPatientOnList() {
-		listPanel.getModel().addElement(patient.toString());
+	public void displayPatientOnList() {
+		do {
+			String pat = queue.poll().toString();
+			listPanel.getModel().addElement(pat);
+		} while(queue.isEmpty()==false);
 	}
 
-	/**
-	 * Instantiates a new patient object with input information
-	 * 
-	 */
-	private void instantiatePatientObjectFromGUIInfo() {
-
-		patient = new PatientObject();
-		patient.setFirstName(inputPanel.getfNameField().getText());
-		patient.setLastName(inputPanel.getlNameField().getText());
-		patient.setAddress(inputPanel.getAddressField().getText());
-		patient.setDateOfBirth(inputPanel.getDobField().getText());
-		patient.setTelephone(inputPanel.getPhoneField().getText());
-		patient.setPatientLog(inputPanel.getLogArea().getText());
-		patient.setPrescription(inputPanel.getPrescription().getText());
-		patient.setPrescriptionReason(inputPanel.getPrescriptionReason().getText());
-		patient.setSignedBy(inputPanel.getSignature().getText());
-		// Patient Object is instantiated
-	}
-	
-	
-	public void displayPatientsFromDatabase() {
-		
-		while(iterator.hasNext()) {
-			this.document = iterator.next();
-			patient = new PatientObject();
-			
-			this.patient.setFirstName(document.getString("first_name"));
-			this.patient.setLastName(document.getString("last_name"));
-			this.patient.setAddress(document.getString("address"));
-			this.patient.setDateOfBirth(document.getString("DoB"));
-			this.patient.setTelephone(document.getString("phone"));
-			this.patient.setPatientLog(document.getString("patient_log"));
-			this.patient.setPrescription(document.getString("prescription"));
-			this.patient.setPrescriptionReason(document.getString("prescription_reason"));
-			this.patient.setSignedBy(document.getString("signature"));
-			
-		}
-		
-	}
-
-	/**
-	 * initiates the internal queue with patient objects
-	 */
-	public void loadPatientQueue() {
-		
-		while(iterator.hasNext()) {
-			this.document = iterator.next();
-			patient = new PatientObject();
-			
-			this.patient.setFirstName(document.getString("first_name"));
-			this.patient.setLastName(document.getString("last_name"));
-			this.patient.setAddress(document.getString("address"));
-			this.patient.setDateOfBirth(document.getString("DoB"));
-			this.patient.setTelephone(document.getString("phone"));
-			this.patient.setPatientLog(document.getString("patient_log"));
-			this.patient.setPrescription(document.getString("prescription"));
-			this.patient.setPrescriptionReason(document.getString("prescription_reason"));
-			this.patient.setSignedBy(document.getString("signature"));
-			}
-	}
 	
 	/*
 	 * GETTERS AND SETTERS
@@ -132,62 +61,29 @@ public class ListPanelMethods {
 	public PatientObject getPatient() {
 		return patient;
 	}
-
-
+	
 	public void setPatient(PatientObject patient) {
 		this.patient = patient;
 	}
-
-
+	
 	public ListPanel getListPanel() {
 		return listPanel;
 	}
-
-
+	
 	public void setListPanel(ListPanel listPanel) {
 		this.listPanel = listPanel;
 	}
 
-	public InputPanel getInputPanel() {
-		return inputPanel;
+
+	public PriorityQueue<PatientObject> getQueue() {
+		return queue;
 	}
 
-	public void setInputPanel(InputPanel inputPanel) {
-		this.inputPanel = inputPanel;
-	}
 
-	public DatabaseConnection getConnection() {
-		return connection;
-	}
-
-	public void setConnection(DatabaseConnection connection) {
-		this.connection = connection;
-	}
-
-	public MongoCollection<Document> getCollection() {
-		return collection;
-	}
-
-	public void setCollection(MongoCollection<Document> collection) {
-		this.collection = collection;
-	}
-
-	public Document getDocument() {
-		return document;
-	}
-
-	public void setDocument(Document document) {
-		this.document = document;
-	}
-
-	public Iterator<Document> getIterator() {
-		return iterator;
-	}
-
-	public void setIterator(Iterator<Document> iterator) {
-		this.iterator = iterator;
+	public void setQueue(PriorityQueue<PatientObject> queue) {
+		this.queue = queue;
 	}
 	
 	
 
-	}
+}

@@ -56,6 +56,7 @@ public class LogSystem {
 		initIterator();
 		initInternalMethods();
 		initButtonListeners();
+		initQueueSys();
 		}
 
 	public void printDocuments() {
@@ -75,7 +76,7 @@ public class LogSystem {
 		iterator = connection.getCollection().find().iterator();
 
 		outputMethods.setIterator(iterator);
-		listMethods.setIterator(iterator);
+		queueSystem.setIterator(iterator);
 	}
 	
 	/**
@@ -96,16 +97,16 @@ public class LogSystem {
 		outputMethods.setCollection(connection.getCollection());
 		outputMethods.setConnection(connection);
 		outputMethods.setOutputPanel(gui.getOutputPanel());
-		
-		listMethods.setCollection(connection.getCollection());
-		listMethods.setConnection(connection);
-		
+		outputMethods.setQueue(queueSystem.getPatientQueue());
+
+		listMethods.setQueue(queueSystem.getPatientQueue());
 		listMethods.setListPanel(gui.getListPanel());
-		listMethods.setInputPanel(gui.getInputPanel());
 		
-		outputMethods.setqSys(this.queueSystem);
 		}
 	
+	/**
+	 * initiates all the button listeners
+	 */
 	private void initButtonListeners() {
 
 		//Input button
@@ -118,7 +119,12 @@ public class LogSystem {
 		
 		//Update button
 		outputMethods.updateButtonListener(gui.getOutputPanel().getUpdateBtn());
-		
+	
+	}
+	
+	private void initQueueSys() {
+		queueSystem.loadQueue();
+		listMethods.displayPatientOnList();
 	}
 
 	/*
