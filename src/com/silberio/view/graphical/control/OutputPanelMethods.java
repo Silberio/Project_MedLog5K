@@ -52,18 +52,7 @@ public class OutputPanelMethods extends Logging {
 	 * 
 	 */
 	public void retrieveButtonListener(JButton btn) {
-		btn.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-				getNextPatientOnQueue();
-				setTextToOutputFields();
-				
-				outputPanel.getEditBtn().setEnabled(true);
-				outputPanel.getUpdateBtn().setEnabled(true);
-				}
-		});
+		btn.addActionListener(e -> retrievePatient());
 	}
 	
 	/**
@@ -74,15 +63,12 @@ public class OutputPanelMethods extends Logging {
 	 * @param listPanel
 	 */
 	public void outputButtonListener(JButton btn) {
-		btn.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				clearOutputFields();
-				
-			}
-		});
+		
+		btn.addActionListener(e -> removePatient());
+		
 	}
+	
+
 	
 	/**
 	 * Listener for the output panel "Edit" button
@@ -90,16 +76,7 @@ public class OutputPanelMethods extends Logging {
 	 * @param outputPanel
 	 */
 	public void editButtonListener(JButton btn) {
-		btn.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				openFieldsForEdit();
-				
-				outputPanel.getEditBtn().setEnabled(false);
-
-			}
-		});
+		btn.addActionListener(e -> editPatient());
 	}
 	
 	/**
@@ -108,34 +85,57 @@ public class OutputPanelMethods extends Logging {
 	 * @param outputPanel
 	 */
 	public void updateButtonListener(JButton btn) {
-		btn.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				saveEditedInfo();
-				lockEditFields();
-				objectToDocument();
-				updateDocument();
-				
-				outputPanel.getUpdateBtn().setEnabled(false);
-				}
-		});
+		btn.addActionListener(e -> updatePatient());
+	}
+	/*
+	 * ACTION LISTENER METHODS 
+	 */
+	private void retrievePatient() {
+		
+		setTextToOutputFields();
+		
+		outputPanel.getEditBtn().setEnabled(true);
+		outputPanel.getUpdateBtn().setEnabled(true);
+		outputPanel.getOutputBtn().setEnabled(true);
+		
+		System.out.println("" + patient.getId());
+	}
+	
+	private void removePatient() {
+		clearOutputFields();
+		queue.poll();
+		outputPanel.getOutputBtn().setEnabled(false);
+		outputPanel.getUpdateBtn().setEnabled(false);
+		outputPanel.getEditBtn().setEnabled(false);
+	}
+	
+	private void editPatient() {
+		openFieldsForEdit();
+		
+		outputPanel.getEditBtn().setEnabled(false);
+	}
+	
+	private void updatePatient() {
+		saveEditedInfo();
+		lockEditFields();
+		objectToDocument();
+		updateDocument();
+		
+		outputPanel.getUpdateBtn().setEnabled(false);
+	
 	}
 	/*
 	 * METHODS
 	 */
 	
+	
 
-	
-	private void getNextPatientOnQueue() {
-		this.patient = queue.peek();
-		
-	}
-	
 	/**
 	 * Fills the output text fields with data from a patient object
 	 */
 	private void setTextToOutputFields() {
+		
+		this.patient = queue.peek();
 		outputPanel.getFnameField().setText(this.patient.getFirstName());
 		outputPanel.getLnameField().setText(this.patient.getLastName());
 		outputPanel.getAddressField().setText(this.patient.getAddress());
@@ -144,7 +144,6 @@ public class OutputPanelMethods extends Logging {
 		outputPanel.getLogField().setText(this.patient.getPatientLog());
 		outputPanel.getPrescriptionField().setText(this.patient.getPrescription());
 		outputPanel.getPrescriptionReasonField().setText(this.patient.getPrescriptionReason());
-		
 	}
 	
 	
@@ -220,6 +219,7 @@ public class OutputPanelMethods extends Logging {
 			this.document = iterator.next();
 			patient = new PatientObject();
 			
+			this.patient.setId(document.hashCode());
 			this.patient.setFirstName(document.getString("first_name"));
 			this.patient.setLastName(document.getString("last_name"));
 			this.patient.setAddress(document.getString("address"));
@@ -308,11 +308,12 @@ public class OutputPanelMethods extends Logging {
 		this.iterator = iterator;
 	}
 
-	public PriorityQueue getQueue() {
+	public PriorityQueue<PatientObject> getQueue() {
 		return queue;
 	}
 
-	public void setQueue(PriorityQueue queue) {
+	public void setQueue(PriorityQueue<PatientObject> queue) {
+		
 		this.queue = queue;
 	}
 	

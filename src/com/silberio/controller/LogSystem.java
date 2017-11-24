@@ -48,16 +48,30 @@ public class LogSystem {
 	public void mainframe() {
 		// ui.systemInit();
 
+		establishConnection();
+		
+		initGUISystem();
+		initIterator();
+		initQueueSys();
+		initInternalMethods();
+		initButtonListeners();
+		}
+	
+	private void establishConnection() {
 		connection.establishConnectionToDatabase();
 		connection.setColletion("PatientCollection");
 		connection.getCollection();
 		
-		initGUISystem();
-		initIterator();
-		initInternalMethods();
-		initButtonListeners();
-		initQueueSys();
-		}
+		inputMethods.setCollection(connection.getCollection());
+		inputMethods.setConnection(connection);
+		
+		outputMethods.setCollection(connection.getCollection());
+		outputMethods.setConnection(connection);
+		
+		inputMethods.setQueue(queueSystem.getPatientQueue());
+		outputMethods.setQueue(queueSystem.getPatientQueue());
+		listMethods.setQueue(queueSystem.getPatientQueue());	
+	}
 
 	public void printDocuments() {
 		ui.printDocuments(connection, "PatientCollection");
@@ -88,20 +102,13 @@ public class LogSystem {
 	 * </p>
 	 */
 	private void initInternalMethods() {
-		
-		inputMethods.setCollection(connection.getCollection());
-		inputMethods.setConnection(connection);
 		inputMethods.setInputPanel(gui.getInputPanel());
-		inputMethods.setQueue(queueSystem.getPatientQueue());
-		
-		outputMethods.setCollection(connection.getCollection());
-		outputMethods.setConnection(connection);
-		outputMethods.setOutputPanel(gui.getOutputPanel());
-		outputMethods.setQueue(queueSystem.getPatientQueue());
 
-		listMethods.setQueue(queueSystem.getPatientQueue());
+		outputMethods.setOutputPanel(gui.getOutputPanel());
+
 		listMethods.setListPanel(gui.getListPanel());
 		
+
 		}
 	
 	/**
@@ -114,6 +121,10 @@ public class LogSystem {
 		
 		//Retrieve button
 		outputMethods.retrieveButtonListener(gui.getOutputPanel().getRetrieveBtn());
+		
+		//Remove button 
+		outputMethods.outputButtonListener(gui.getOutputPanel().getOutputBtn());
+		
 		//Edit button
 		outputMethods.editButtonListener(gui.getOutputPanel().getEditBtn());
 		
@@ -121,10 +132,10 @@ public class LogSystem {
 		outputMethods.updateButtonListener(gui.getOutputPanel().getUpdateBtn());
 	
 	}
+
 	
 	private void initQueueSys() {
 		queueSystem.loadQueue();
-		listMethods.displayPatientOnList();
 	}
 
 	/*

@@ -11,6 +11,7 @@ public class PatientObject implements Comparable<PatientObject>{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private int id;
 	private String firstName;
 	private String lastName;
 	private String address;
@@ -138,6 +139,14 @@ public class PatientObject implements Comparable<PatientObject>{
 
 	public void setPrio(int prio) {
 		this.prio = prio;
+	}
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int i) {
+		this.id = i;
 	}
 
 	/**

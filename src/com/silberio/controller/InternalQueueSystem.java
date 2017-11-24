@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.util.Iterator;
 import java.util.PriorityQueue;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 
 import org.bson.Document;
@@ -50,8 +51,11 @@ public class InternalQueueSystem {
 			this.patient.setSignedBy(document.getString("signature"));
 			
 			patientQueue.offer(patient);
+			
+			
 		}
 	}
+
 
 	/*
 	 * GETTERS AND SETTERS

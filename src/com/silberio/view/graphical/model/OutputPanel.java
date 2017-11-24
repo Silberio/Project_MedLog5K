@@ -121,7 +121,8 @@ public class OutputPanel extends JPanel {
 		
 		gbc.gridx = 0;
 		gbc.gridy = 16;
-		this.add(outputBtn, gbc);	
+		this.add(outputBtn, gbc);
+		outputBtn.setEnabled(false);
 		
 		gbc.gridx = 1;
 		gbc.gridy = 15;

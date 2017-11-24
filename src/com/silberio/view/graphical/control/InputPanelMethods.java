@@ -1,7 +1,5 @@
 package com.silberio.view.graphical.control;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Iterator;
 import java.util.PriorityQueue;
 
@@ -11,7 +9,6 @@ import org.bson.Document;
 
 import com.mongodb.client.MongoCollection;
 import com.silberio.controller.DatabaseConnection;
-import com.silberio.controller.InternalQueueSystem;
 import com.silberio.controller.Logging;
 import com.silberio.model.PatientObject;
 import com.silberio.view.graphical.model.InputPanel;
@@ -43,7 +40,7 @@ public class InputPanelMethods extends Logging {
 	/*
 	 * END SINGLETON INSTANTIATION
 	 */
-
+	
 	private PatientObject patient = null;
 	private MongoCollection<Document> collection = null;
 	private Document document = null;
@@ -65,40 +62,37 @@ public class InputPanelMethods extends Logging {
 	 * @param inputPanel
 	 */
 	public void inputButtonListener(JButton btn) {
-		btn.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-				/*
-				 * this gets all the info from the GUI and inserts into each parameter of the
-				 * instantiatePatientObjectFromGUIInfo() method
-				 */
-				instantiatePatientObjectFromGUIInfo();
-				
-				//create a document from patient object
-				createLoggingObject();
-				
-				//insert document object to database
-				insertDocument();
-
-				// clear GUI
-				clearGUIFields();
-				
-				//set priority
-				setPriorityPatient();	
-				
-				//adds a patient object to the priorityqueue
-				addPatientToqueue();
-			}
-		});
+		btn.addActionListener(e -> createPatient());
 	}
 	
-	private void addPatientToqueue() {
+	/*
+	 * METHODS
+	 */
+	private void createPatient() {
+		
+		instantiatePatientObjectFromGUIInfo();
+		
+		//create a document from patient object
+		createLoggingObject();
+		
+		//insert document object to database
+		insertDocument();
+
+		// clear GUI
+		clearGUIFields();
+		
+		//set priority
+		setPriorityPatient();	
+		
+		//add patient to internal queue
+		addPatientToQueue();
+	}
+	
+	private void addPatientToQueue() {
 		queue.offer(patient);
 	}
 	
-	public void setPriorityPatient() {
+	private void setPriorityPatient() {
 		inputPanel.getPriorityCheck();
 		
 		if(inputPanel.getPriorityCheck().isSelected()) {
@@ -143,7 +137,6 @@ public class InputPanelMethods extends Logging {
 		inputPanel.getPrescriptionReason().setText("");
 		inputPanel.getSignature().setText("");
 	}
-	
 	
 	
 	/*
@@ -195,6 +188,7 @@ public class InputPanelMethods extends Logging {
 		while(iterator.hasNext()) {
 			this.document = iterator.next();
 			
+			this.patient.setId(document.hashCode());
 			this.patient.setFirstName(document.getString("first_name"));
 			this.patient.setLastName(document.getString("last_name"));
 			this.patient.setAddress(document.getString("address"));

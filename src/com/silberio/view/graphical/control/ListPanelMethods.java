@@ -47,6 +47,8 @@ public class ListPanelMethods {
 	 * displays input patient file in the list
 	 */
 	public void displayPatientOnList() {
+//		queue.forEach(po -> listPanel.getModel().addElement(po.toString()));
+		 
 		do {
 			String pat = queue.poll().toString();
 			listPanel.getModel().addElement(pat);
