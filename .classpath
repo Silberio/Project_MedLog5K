@@ -16,8 +16,8 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/silberio_stalone/eclipse-workspace/Project_MedLog5K/essential/bson-3.0.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/silberio_stalone/eclipse-workspace/Project_MedLog5K/essential/mongodb-driver-3.0.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/silberio_stalone/eclipse-workspace/Project_MedLog5K/essential/mongodb-driver-core-3.0.1.jar"/>
+	<classpathentry kind="lib" path="/home/bish0p/Documents/workspace/Project_MedLog5K/essential/bson-3.0.1.jar"/>
+	<classpathentry kind="lib" path="/home/bish0p/Documents/workspace/Project_MedLog5K/essential/mongodb-driver-3.0.1.jar"/>
+	<classpathentry kind="lib" path="/home/bish0p/Documents/workspace/Project_MedLog5K/essential/mongodb-driver-core-3.0.1.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

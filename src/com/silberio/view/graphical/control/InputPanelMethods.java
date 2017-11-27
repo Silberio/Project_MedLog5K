@@ -188,7 +188,7 @@ public class InputPanelMethods extends Logging {
 		while(iterator.hasNext()) {
 			this.document = iterator.next();
 			
-			this.patient.setId(document.hashCode());
+			this.patient.setId(document.get("_id").toString());
 			this.patient.setFirstName(document.getString("first_name"));
 			this.patient.setLastName(document.getString("last_name"));
 			this.patient.setAddress(document.getString("address"));

@@ -105,7 +105,7 @@ public class LogSystem {
 		inputMethods.setInputPanel(gui.getInputPanel());
 
 		outputMethods.setOutputPanel(gui.getOutputPanel());
-
+		
 		listMethods.setListPanel(gui.getListPanel());
 		
 

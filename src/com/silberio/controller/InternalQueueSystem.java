@@ -40,6 +40,7 @@ public class InternalQueueSystem {
 			this.document = iterator.next();
 			patient = new PatientObject();
 			
+			this.patient.setId("" + document.get("_id"));
 			this.patient.setFirstName(document.getString("first_name"));
 			this.patient.setLastName(document.getString("last_name"));
 			this.patient.setAddress(document.getString("address"));
@@ -50,9 +51,7 @@ public class InternalQueueSystem {
 			this.patient.setPrescriptionReason(document.getString("prescription_reason"));
 			this.patient.setSignedBy(document.getString("signature"));
 			
-			patientQueue.offer(patient);
-			
-			
+			patientQueue.offer(patient);			
 		}
 	}
 
