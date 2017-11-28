@@ -1,5 +1,8 @@
 package com.silberio.model;
 
+import org.bson.Document;
+import org.bson.types.ObjectId;
+
 /**
  * A patient object
  * 
@@ -11,7 +14,7 @@ public class PatientObject implements Comparable<PatientObject>{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String id;
+	private ObjectId id;
 	private String firstName;
 	private String lastName;
 	private String address;
@@ -141,11 +144,11 @@ public class PatientObject implements Comparable<PatientObject>{
 		this.prio = prio;
 	}
 	
-	public String getId() {
+	public ObjectId getId() {
 		return id;
 	}
 
-	public void setId(String string) {
+	public void setId(ObjectId string) {
 		this.id = string;
 	}
 

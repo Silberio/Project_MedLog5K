@@ -1,12 +1,7 @@
 package com.silberio.controller;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Iterator;
 import java.util.PriorityQueue;
-
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
 
 import org.bson.Document;
 
@@ -40,7 +35,7 @@ public class InternalQueueSystem {
 			this.document = iterator.next();
 			patient = new PatientObject();
 			
-			this.patient.setId("" + document.get("_id"));
+			this.patient.setId(document.getObjectId("_id"));
 			this.patient.setFirstName(document.getString("first_name"));
 			this.patient.setLastName(document.getString("last_name"));
 			this.patient.setAddress(document.getString("address"));
@@ -54,7 +49,6 @@ public class InternalQueueSystem {
 			patientQueue.offer(patient);			
 		}
 	}
-
 
 	/*
 	 * GETTERS AND SETTERS

@@ -1,7 +1,5 @@
 package com.silberio.view.graphical.control;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Iterator;
 import java.util.PriorityQueue;
 
@@ -9,10 +7,9 @@ import javax.swing.JButton;
 
 import org.bson.Document;
 
-import com.mongodb.bulk.WriteRequest.Type;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.silberio.controller.DatabaseConnection;
-import com.silberio.controller.InternalQueueSystem;
 import com.silberio.controller.Logging;
 import com.silberio.model.PatientObject;
 import com.silberio.view.graphical.model.OutputPanel;
@@ -37,7 +34,6 @@ public class OutputPanelMethods extends Logging {
 	private PatientObject patient = null;
 	private MongoCollection<Document> collection = null;
 	private Document document = null;
-	private Document newDocument = null;
 	private DatabaseConnection connection = null;
 	private OutputPanel outputPanel = null;
 	private Iterator<Document> iterator = null;
@@ -93,12 +89,13 @@ public class OutputPanelMethods extends Logging {
 	 */
 	private void retrievePatient() {
 		this.patient = queue.peek();
-
+		
 		setTextToOutputFields();
 		
 		outputPanel.getEditBtn().setEnabled(true);
 		outputPanel.getUpdateBtn().setEnabled(true);
 		outputPanel.getOutputBtn().setEnabled(true);
+		
 		}
 	
 	private void removePatient() {
@@ -199,10 +196,17 @@ public class OutputPanelMethods extends Logging {
 	 */
 	public void updateDocument() {
 		this.patient = queue.peek();
+
+		Document query = new Document("_id", patient.getId());
 		
-		collection.replaceOne(document, newDocument);
+		FindIterable<Document> doc = collection.find(query);
+		
+		Document newDoc = doc.first();
+		
+		System.out.println(newDoc);
+		
+//		collection.updateOne(query, newDocument);
 	}
-	
 	
 	
 	/*
@@ -218,7 +222,7 @@ public class OutputPanelMethods extends Logging {
 			this.document = iterator.next();
 			patient = new PatientObject();
 			
-			this.patient.setId(document.get("_id").toString());
+			this.patient.setId(document.getObjectId("_id"));
 			this.patient.setFirstName(document.getString("first_name"));
 			this.patient.setLastName(document.getString("last_name"));
 			this.patient.setAddress(document.getString("address"));
@@ -242,7 +246,7 @@ public class OutputPanelMethods extends Logging {
 	public void objectToDocument() {
 		String title = "file_" + patient.getLastName() + patient.getFirstName();
 		
-		newDocument = new Document("title", title)
+		document = new Document("title", title)
 				.append("_id", patient.getId())
 				.append("first_name", patient.getFirstName())
 				.append("last_name", patient.getLastName())
