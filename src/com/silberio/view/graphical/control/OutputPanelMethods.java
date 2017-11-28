@@ -197,15 +197,13 @@ public class OutputPanelMethods extends Logging {
 	public void updateDocument() {
 		this.patient = queue.peek();
 
+		//Here it finds the patient document by patient ID
 		Document query = new Document("_id", patient.getId());
-		
 		FindIterable<Document> doc = collection.find(query);
-		
+		//Sets newDoc to the document with the queried ID
 		Document newDoc = doc.first();
 		
-		System.out.println(newDoc);
-		
-//		collection.updateOne(query, newDocument);
+		collection.replaceOne(newDoc, document);
 	}
 	
 	
@@ -247,7 +245,6 @@ public class OutputPanelMethods extends Logging {
 		String title = "file_" + patient.getLastName() + patient.getFirstName();
 		
 		document = new Document("title", title)
-				.append("_id", patient.getId())
 				.append("first_name", patient.getFirstName())
 				.append("last_name", patient.getLastName())
 				.append("address", patient.getAddress())
