@@ -6,6 +6,7 @@ import java.util.PriorityQueue;
 import org.bson.Document;
 
 import com.silberio.model.PatientObject;
+import com.silberio.view.graphical.model.ListPanel;
 
 public class InternalQueueSystem {
 
@@ -29,6 +30,7 @@ public class InternalQueueSystem {
 	private PatientObject patient = null;
 	private Document document = null;
 	private Iterator<Document> iterator = null;
+	private ListPanel listPanel = null; 
 	
 	public void loadQueue() {
 		while(iterator.hasNext()) {
@@ -46,7 +48,8 @@ public class InternalQueueSystem {
 			this.patient.setPrescriptionReason(document.getString("prescription_reason"));
 			this.patient.setSignedBy(document.getString("signature"));
 			
-			patientQueue.offer(patient);			
+			patientQueue.offer(patient);		
+			listPanel.getModel().addElement(this.patient.toString());
 		}
 	}
 
@@ -75,4 +78,13 @@ public class InternalQueueSystem {
 	public void setIterator(Iterator<Document> iterator) {
 		this.iterator = iterator;
 	}
+	
+	public ListPanel getListPanel() {
+		return listPanel;
+	}
+	
+	public void setListPanel(ListPanel listPanel) {
+		this.listPanel = listPanel;
+	}
+
 }

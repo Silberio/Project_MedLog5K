@@ -12,6 +12,7 @@ import com.silberio.controller.DatabaseConnection;
 import com.silberio.controller.Logging;
 import com.silberio.model.PatientObject;
 import com.silberio.view.graphical.model.InputPanel;
+import com.silberio.view.graphical.model.ListPanel;
 
 /**
  * This class contains all the methods used in Input Panel.
@@ -46,6 +47,7 @@ public class InputPanelMethods extends Logging {
 	private Document document = null;
 	private DatabaseConnection connection = null;
 	private InputPanel inputPanel = null;
+	private ListPanel listPanel = null; 
 	private PriorityQueue<PatientObject> queue;
 	/*
 	 * ACTION LISTENERS FOR INPUT BUTTONS
@@ -91,6 +93,7 @@ public class InputPanelMethods extends Logging {
 	private void addPatientToQueue() {
 		queue.offer(patient);
 		patient.setId(document.getObjectId("_id"));
+		listPanel.getModel().addElement(patient.toString());
 	}
 	
 	private void setPriorityPatient() {
@@ -258,5 +261,15 @@ public class InputPanelMethods extends Logging {
 	public void setQueue(PriorityQueue queue) {
 		this.queue = queue;
 	}
+
+	public ListPanel getListPanel() {
+		return listPanel;
+	}
+
+	public void setListPanel(ListPanel listPanel) {
+		this.listPanel = listPanel;
+	}
+	
+	
 	
 }

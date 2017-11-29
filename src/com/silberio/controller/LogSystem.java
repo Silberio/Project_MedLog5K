@@ -1,18 +1,13 @@
 package com.silberio.controller;
 
-import java.awt.im.spi.InputMethod;
 import java.util.Iterator;
-import java.util.PriorityQueue;
 
 import org.bson.Document;
 
-import com.silberio.model.PatientObject;
 import com.silberio.view.UserInterfaceMethods;
 import com.silberio.view.graphical.MainGUIWindow;
 import com.silberio.view.graphical.control.InputPanelMethods;
-import com.silberio.view.graphical.control.ListPanelMethods;
 import com.silberio.view.graphical.control.OutputPanelMethods;
-import com.silberio.view.graphical.model.InputPanel;
 
 public class LogSystem {
 
@@ -31,16 +26,15 @@ public class LogSystem {
 
 	private DatabaseConnection connection = DatabaseConnection.getInstance();
 	private UserInterfaceMethods ui = UserInterfaceMethods.getInstance();
-	
+
 	private InputPanelMethods inputMethods = InputPanelMethods.getInstance();
 	private OutputPanelMethods outputMethods = OutputPanelMethods.getInstance();
-	private ListPanelMethods listMethods = ListPanelMethods.getInstance();
 	private InternalQueueSystem queueSystem = InternalQueueSystem.getInstance();
 
 	private MainGUIWindow gui;
 
 	Iterator<Document> iterator = null;
-	
+
 	/*
 	 * MAINFRAME SYSTEM
 	 */
@@ -49,40 +43,39 @@ public class LogSystem {
 		// ui.systemInit();
 
 		establishConnection();
-		
+
 		initGUISystem();
+		setListToInternalQueue();
 		initIterator();
 		initQueueSys();
 		initInternalMethods();
 		initButtonListeners();
-		}
-	
+	}
+
 	private void establishConnection() {
 		connection.establishConnectionToDatabase();
 		connection.setColletion("PatientCollection");
 		connection.getCollection();
-		
+
 		inputMethods.setCollection(connection.getCollection());
 		inputMethods.setConnection(connection);
-		
+
 		outputMethods.setCollection(connection.getCollection());
 		outputMethods.setConnection(connection);
-		
+
 		inputMethods.setQueue(queueSystem.getPatientQueue());
 		outputMethods.setQueue(queueSystem.getPatientQueue());
-		listMethods.setQueue(queueSystem.getPatientQueue());	
 	}
 
 	public void printDocuments() {
 		ui.printDocuments(connection, "PatientCollection");
 	}
 
-
 	private void initGUISystem() {
 		gui = new MainGUIWindow();
 
 	}
-	
+
 	/**
 	 * Global iterator initialization
 	 */
@@ -92,11 +85,10 @@ public class LogSystem {
 		outputMethods.setIterator(iterator);
 		queueSystem.setIterator(iterator);
 	}
-	
+
 	/**
-	 * Initiates all methods to be used by internal classes,
-	 * such as methods for input, output and the graphical
-	 * list 
+	 * Initiates all methods to be used by internal classes, such as methods for
+	 * input, output and the graphical list
 	 * <p>
 	 * 
 	 * </p>
@@ -105,35 +97,37 @@ public class LogSystem {
 		inputMethods.setInputPanel(gui.getInputPanel());
 
 		outputMethods.setOutputPanel(gui.getOutputPanel());
-		
-		listMethods.setListPanel(gui.getListPanel());
-		
 
-		}
-	
+	}
+
 	/**
 	 * initiates all the button listeners
 	 */
 	private void initButtonListeners() {
 
-		//Input button
+		// Input button
 		inputMethods.inputButtonListener(gui.getInputPanel().getInputBtn());
-		
-		//Retrieve button
+
+		// Retrieve button
 		outputMethods.retrieveButtonListener(gui.getOutputPanel().getRetrieveBtn());
-		
-		//Remove button 
+
+		// Remove button
 		outputMethods.outputButtonListener(gui.getOutputPanel().getOutputBtn());
-		
-		//Edit button
+
+		// Edit button
 		outputMethods.editButtonListener(gui.getOutputPanel().getEditBtn());
-		
-		//Update button
+
+		// Update button
 		outputMethods.updateButtonListener(gui.getOutputPanel().getUpdateBtn());
-	
+
 	}
 
-	
+	private void setListToInternalQueue() {
+		queueSystem.setListPanel(gui.getListPanel());
+		inputMethods.setListPanel(gui.getListPanel());
+		outputMethods.setListPanel(gui.getListPanel());
+	}
+
 	private void initQueueSys() {
 		queueSystem.loadQueue();
 	}
@@ -148,8 +142,5 @@ public class LogSystem {
 	public void setQueueSystem(InternalQueueSystem queueSystem) {
 		this.queueSystem = queueSystem;
 	}
-	
-	
-
 
 }

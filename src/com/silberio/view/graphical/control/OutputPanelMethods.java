@@ -12,6 +12,7 @@ import com.mongodb.client.MongoCollection;
 import com.silberio.controller.DatabaseConnection;
 import com.silberio.controller.Logging;
 import com.silberio.model.PatientObject;
+import com.silberio.view.graphical.model.ListPanel;
 import com.silberio.view.graphical.model.OutputPanel;
 
 public class OutputPanelMethods extends Logging {
@@ -36,6 +37,7 @@ public class OutputPanelMethods extends Logging {
 	private Document document = null;
 	private DatabaseConnection connection = null;
 	private OutputPanel outputPanel = null;
+	private ListPanel listPanel = null; 
 	private Iterator<Document> iterator = null;
 	private PriorityQueue<PatientObject> queue;
 
@@ -100,6 +102,7 @@ public class OutputPanelMethods extends Logging {
 	
 	private void removePatient() {
 		clearOutputFields();
+		removePatientFromDB();
 		queue.poll();
 		outputPanel.getOutputBtn().setEnabled(false);
 		outputPanel.getUpdateBtn().setEnabled(false);
@@ -117,6 +120,7 @@ public class OutputPanelMethods extends Logging {
 		lockEditFields();
 		objectToDocument();
 		updateDocument();
+		updateList();
 		
 		outputPanel.getUpdateBtn().setEnabled(false);
 	
@@ -124,6 +128,15 @@ public class OutputPanelMethods extends Logging {
 	/*
 	 * METHODS
 	 */
+	
+	private void updateList() {
+		
+		if(listPanel.getModel().contains(patient)) {
+			
+		}
+		listPanel.getModel().addElement(patient.toString());
+
+	}
 	
 	/**
 	 * Fills the output text fields with data from a patient object
@@ -206,6 +219,12 @@ public class OutputPanelMethods extends Logging {
 		collection.replaceOne(newDoc, document);
 	}
 	
+	public void removePatientFromDB() {
+		Document query = new Document("_id", patient.getId());
+		FindIterable<Document> doc = collection.find(query);
+
+		collection.findOneAndDelete(doc.first());
+	}
 	
 	/*
 	 * INHERITED METHODS
@@ -236,8 +255,7 @@ public class OutputPanelMethods extends Logging {
 	
 	@Override
 	public void createLoggingObject() {
-//		document = collection.find();
-		System.out.println(document.get("_id").toString());
+
 	}
 
 	@Override
@@ -318,5 +336,14 @@ public class OutputPanelMethods extends Logging {
 		
 		this.queue = queue;
 	}
+
+	public ListPanel getListPanel() {
+		return listPanel;
+	}
+
+	public void setListPanel(ListPanel listPanel) {
+		this.listPanel = listPanel;
+	}
+	
 	
 }
