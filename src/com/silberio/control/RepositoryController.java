@@ -2,6 +2,7 @@ package com.silberio.control;
 
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoCredential;
 
@@ -40,5 +41,9 @@ public class RepositoryController {
 	
 	public DBCollection getCollection() {
 		return col;
+	}
+	
+	public void inputPatient(DBObject patient) {
+		col.insert(patient);
 	}
 }

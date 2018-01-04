@@ -14,10 +14,19 @@ import com.silberio.model.Patient;
  */
 public interface DataAccesObjectImpl {
 
-	//Maybe return Patient obj
 	public Patient documentToObject(DBObject document);
 
-	//maybe return basicDBobj
 	public DBObject objectToDocument(Patient patient);
+	
+	/*
+	 * VIEW CONTROLLER METHODS 
+	 */
+	public void inputPatient(DBObject patient);
+	
+	public Patient retrievePatient();
+	
+	public Patient editPatient();
+	
+	public Patient removePatient();
 
 }

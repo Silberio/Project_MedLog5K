@@ -1,6 +1,9 @@
 package com.silberio.control;
 
+import java.util.PriorityQueue;
+
 import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.silberio.model.Patient;
 
@@ -11,6 +14,28 @@ public class DataAccesObject implements DataAccesObjectImpl {
 		if(instance==null) {
 			instance = new DataAccesObject();
 		} return instance;
+	}
+	
+	/*
+	 * REPOSITORY CONTROL
+	 */
+	private DBCollection col = null;
+	private PriorityQueue<Patient> que = null;
+	
+	public DBCollection getCol() {
+		return col;
+	}
+	
+	public void setCol(DBCollection col) {
+		this.col = col;
+	}
+	
+	public PriorityQueue<Patient> getQue() {
+		return que;
+	}
+
+	public void setQue(PriorityQueue<Patient> que) {
+		this.que = que;
 	}
 
 	/**
@@ -51,4 +76,47 @@ public class DataAccesObject implements DataAccesObjectImpl {
 		return document;
 	}
 
+	/*
+	 * CRUD FUNCTIONALITY
+	 * @see com.silberio.control.DataAccesObjectImpl#inputPatient()
+	 */
+	Patient patient = new Patient();
+	
+	//implement all these methods
+	
+	@Override
+	public void inputPatient(DBObject patient) {
+		col.insert(patient);
+		System.out.println("Patient " +patient.get("last_name") +" inserted");
+	}
+
+	@Override
+	public Patient retrievePatient() {
+		return patient;
+	}
+
+	@Override
+	public Patient editPatient() {
+		System.out.println("edit operational");
+		return null;
+	}
+
+	@Override
+	public Patient removePatient() {
+		System.out.println("remove operational");
+		return null;
+	}
+
+	
+	/*
+	 * GETTERS & SETTERS
+	 */
+	
+	public Patient getPatient() {
+		return patient;
+	}
+	
+	public void setPatient(Patient patient) {
+		this.patient = patient;
+	}
 }
