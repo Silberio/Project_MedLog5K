@@ -16,6 +16,11 @@ public interface DataAccesObjectImpl {
 
 	public Patient documentToObject(DBObject document);
 
+/**
+ * Takes in a patient POJO and converts it to a DB Object
+ * @param patient the patient object to be converted
+ * @return a DBObject with the info from <i>patient</i>
+ */
 	public DBObject objectToDocument(Patient patient);
 	
 	/*
@@ -25,8 +30,8 @@ public interface DataAccesObjectImpl {
 	
 	public Patient retrievePatient();
 	
-	public void editPatient(DBObject patient, DBObject updatedPatient);
+	public void editPatient(Patient patient, Patient updatedPatient);
 	
-	public Patient removePatient();
+	public Patient removePatient(Patient patient);
 
 }

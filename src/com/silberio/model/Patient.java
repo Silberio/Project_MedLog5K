@@ -1,7 +1,5 @@
 package com.silberio.model;
 
-import org.bson.types.ObjectId;
-
 /**
  * Patient bean
  * <p>
@@ -18,7 +16,7 @@ public class Patient implements Comparable<Patient> {
 	private String address;
 	private String dateOfBirth;
 	private String telephone;
-	private String patientLog;
+	//private String patientLog;
 	private String prescription;
 	private String prescriptionReason;
 	private String signature;
@@ -94,13 +92,13 @@ public class Patient implements Comparable<Patient> {
 		this.telephone = telephone;
 	}
 
-	public String getPatientLog() {
-		return patientLog;
-	}
-
-	public void setPatientLog(String patientLog) {
-		this.patientLog = patientLog;
-	}
+//	public String getPatientLog() {
+//		return patientLog;
+//	}
+//
+//	public void setPatientLog(String patientLog) {
+//		this.patientLog = patientLog;
+//	}
 
 	public String getSignature() {
 		return signature;

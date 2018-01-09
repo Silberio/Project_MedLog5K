@@ -32,11 +32,13 @@ public class MainWindow extends JFrame {
 	 */
 	private GridBagLayout grid = new GridBagLayout();
 	private GridBagConstraints gbc = new GridBagConstraints();
-	private boolean isEdit;
 	private static InputField fname, lname, address, dob, phone, presc, sig;
 	private static InputField ofname, olname, oaddress, odob, ophone, opresc, osig;
 	private static JTextArea prescreason, oprescreason;
 
+	private DataAccesObject dao = null;
+	private Patient p, u;
+	
 	public MainWindow() {
 		String title = "MedLog System 5000 : : by SilbTech";
 		this.setTitle(title);
@@ -219,14 +221,10 @@ public class MainWindow extends JFrame {
 		gbc.gridy = 9;
 		east.add(retrievePatientBtn(), gbc);
 
+		gbc.insets = new Insets(10, 1, 15, 20);
 		gbc.gridx = 0;
 		gbc.gridy = 10;
 		east.add(editPatientBtn(), gbc);
-		gbc.insets = new Insets(10, 1, 15, 20);
-
-		gbc.gridx = 0;
-		gbc.gridy = 11;
-		east.add(removePatientBtn(), gbc);
 
 		return east;
 	}
@@ -274,12 +272,6 @@ public class MainWindow extends JFrame {
 		return btn;
 	}
 
-	private JButton removePatientBtn() {
-		JButton btn = new JButton("Remove Patient");
-		btn.addActionListener(e -> removePatient());
-		return btn;
-	}
-
 	/*
 	 * ELEMENTS
 	 */
@@ -301,6 +293,10 @@ public class MainWindow extends JFrame {
 	 * BSNS LOGIC
 	 */
 
+	/**
+	 * Sets data from retrieved patient into the text fields
+	 * @param p the patient object to get data from
+	 */
 	private void populateOutputFields(Patient p) {
 		ofname.setText(p.getFirstName());
 		olname.setText(p.getLastName());
@@ -312,6 +308,10 @@ public class MainWindow extends JFrame {
 		osig.setText(p.getSignature());
 	}
 
+	/**
+	 * Enables/disables text fields
+	 * @param b <i>boolean</i> for JButton.setEditable
+	 */
 	private void setPanelsEditable(boolean b) {
 		ofname.setEditable(b);
 		olname.setEditable(b);
@@ -323,26 +323,45 @@ public class MainWindow extends JFrame {
 		osig.setEditable(b);
 	};
 
-	private Patient editedPatient() {
-		p = new Patient();
+	/**
+	 * Initializes a patient to update
+	 * 
+	 */
+	private void editedPatient() {
+		u = new Patient();
 		
-		p.setFirstName(ofname.getText());
-		p.setLastName(olname.getText());
-		p.setAddress(oaddress.getText());
-		p.setTelephone(ophone.getText());
-		p.setDateOfBirth(odob.getText());
-		p.setPrescription(opresc.getText());
-		p.setPrescriptionReason(oprescreason.getText());
-		p.setSignature(osig.getText());
+		u.setFirstName(ofname.getText());
+		u.setLastName(olname.getText());
+		u.setAddress(oaddress.getText());
+		u.setTelephone(ophone.getText());
+		u.setDateOfBirth(odob.getText());
+		u.setPrescription(opresc.getText());
+		u.setPrescriptionReason(oprescreason.getText());
+		u.setSignature(osig.getText());
 		
 		System.out.println("Patient edited");
-		return p;
+	}
+	
+	public void clearOutputFields() {
+		ofname.setText("");
+		olname.setText("");
+		oaddress.setText("");
+		odob.setText("");
+		ophone.setText("");
+		opresc.setText("");
+		oprescreason.setText("");
+		osig.setText("");
+	}
+	
+	public String populateList() {
+		String patient = "patient";
+		
+		return patient;
 	}
 	/*
 	 * DAO CONTROL
 	 */
-	private DataAccesObject dao = null;
-	private Patient p = null;
+
 
 	public DataAccesObject getDao() {
 		return dao;
@@ -352,6 +371,9 @@ public class MainWindow extends JFrame {
 		this.dao = dao;
 	}
 
+	/**
+	 * Inserts a new patient into the DB Collection
+	 */
 	private void inputPatient() {
 		p = new Patient();
 
@@ -369,10 +391,20 @@ public class MainWindow extends JFrame {
 		dao.inputPatient(dao.objectToDocument(p));
 	}
 
+	/**
+	 * Listener for retrieve/remove patient button
+	 * @param btn
+	 */
 	private void retrievePatient(JButton btn) {
-		p = dao.retrievePatient();
-		populateOutputFields(p);
-		btn.setEnabled(false);
+		if(btn.getText().equals("Retrieve Patient")) {
+			p = dao.retrievePatient();
+			populateOutputFields(p);
+			btn.setText("Remove Patient");
+		} else {
+			dao.removePatient(p);
+			btn.setText("Retrieve Patient");
+			clearOutputFields();
+		}
 	}
 
 	/**
@@ -388,30 +420,23 @@ public class MainWindow extends JFrame {
 	 * @param btn a JButton initialized with text
 	 */
 	private void editPatient(JButton btn) {
+		p = dao.retrievePatient();
 
 		if (btn.getText().equals("Edit Patient")) {
 			// This will be the listener for EDIT patient
 			btn.setText("Save Patient");
 			setPanelsEditable(true);
-			if (p == null) {
-				p = dao.retrievePatient();
-			}
 
 		} else {
-			// This listener for SAVE
-			Patient update = new Patient();
+			// This listener for SAVE			
 			
 			btn.setText("Edit Patient");
 			setPanelsEditable(false);
-			p = editedPatient();
+			editedPatient();
 			
-			// p = query
-			dao.editPatient(dao.objectToDocument(p));
+			// p = query; update = u
+			dao.editPatient(p, u);
+			System.out.println("Patient succesfully edited");
 		}
 	}
-
-	private void removePatient() {
-		dao.removePatient();
-	}
-
 }

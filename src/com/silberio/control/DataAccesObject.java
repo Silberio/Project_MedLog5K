@@ -51,7 +51,7 @@ public class DataAccesObject implements DataAccesObjectImpl {
 		patient.setAddress(document.get("address").toString());
 		patient.setDateOfBirth(document.get("DoB").toString());
 		patient.setTelephone(document.get("phone").toString());
-		patient.setPatientLog(document.get("patient_log").toString());
+		//patient.setPatientLog(document.get("patient_log").toString());
 		patient.setPrescription(document.get("prescription").toString());
 		patient.setPrescriptionReason(document.get("prescription_reason").toString());
 		patient.setSignature(document.get("signature").toString());
@@ -68,8 +68,9 @@ public class DataAccesObject implements DataAccesObjectImpl {
 		document.put("address", patient.getAddress());
 		document.put("DoB", patient.getDateOfBirth());
 		document.put("phone", patient.getTelephone());
-		document.put("patient_log", patient.getPatientLog());
+		//document.put("patient_log", patient.getPatientLog());
 		document.put("prescription", patient.getPrescription());
+		document.put("prescription_reason", patient.getPrescriptionReason());
 		document.put("signature", patient.getSignature());
 
 
@@ -103,20 +104,23 @@ public class DataAccesObject implements DataAccesObjectImpl {
 	}
 
 	@Override
-	public void editPatient(DBObject patient, DBObject updatedPatient) {
-		DBObject id = //get patient id here
-				
+	public void editPatient(Patient patient, Patient updatedPatient) {
+		que.poll();
+		que.add(updatedPatient);
 		//here replace patient from main window where u edit it
 		//should be something like: findOneAndReplace with the new patient thing
 		//this could receive the new patient and parse the whole thing
-		col.update(patient, updatedPatient);
-		
+		 col.update(objectToDocument(patient), objectToDocument(updatedPatient));
+		//col.remove(patient);
+		//col.insert(updatedPatient);
 		System.out.println("edit operational");
 	}
 
 	@Override
-	public Patient removePatient() {
-		System.out.println("remove operational");
+	public Patient removePatient(Patient query) {
+		col.findAndRemove(objectToDocument(query));
+		que.poll();
+		System.out.println("removed patient: " + query.toString());
 		return null;
 	}
 
