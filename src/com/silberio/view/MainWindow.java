@@ -399,9 +399,13 @@ public class MainWindow extends JFrame {
 
 		} else {
 			// This listener for SAVE
+			Patient update = new Patient();
+			
 			btn.setText("Edit Patient");
 			setPanelsEditable(false);
 			p = editedPatient();
+			
+			// p = query
 			dao.editPatient(dao.objectToDocument(p));
 		}
 	}

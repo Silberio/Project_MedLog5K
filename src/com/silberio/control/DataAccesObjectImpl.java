@@ -25,7 +25,7 @@ public interface DataAccesObjectImpl {
 	
 	public Patient retrievePatient();
 	
-	public void editPatient(DBObject patient);
+	public void editPatient(DBObject patient, DBObject updatedPatient);
 	
 	public Patient removePatient();
 

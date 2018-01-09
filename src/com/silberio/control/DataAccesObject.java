@@ -103,13 +103,13 @@ public class DataAccesObject implements DataAccesObjectImpl {
 	}
 
 	@Override
-	public void editPatient(DBObject patient) {
+	public void editPatient(DBObject patient, DBObject updatedPatient) {
 		DBObject id = //get patient id here
 				
 		//here replace patient from main window where u edit it
 		//should be something like: findOneAndReplace with the new patient thing
 		//this could receive the new patient and parse the whole thing
-		col.update(query, update)
+		col.update(patient, updatedPatient);
 		
 		System.out.println("edit operational");
 	}
