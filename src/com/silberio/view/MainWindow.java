@@ -221,7 +221,7 @@ public class MainWindow extends JFrame {
 
 		gbc.gridx = 0;
 		gbc.gridy = 10;
-
+		east.add(editPatientBtn(), gbc);
 		gbc.insets = new Insets(10, 1, 15, 20);
 
 		gbc.gridx = 0;
@@ -270,10 +270,9 @@ public class MainWindow extends JFrame {
 
 	private JButton editPatientBtn() {
 		JButton btn = new JButton("Edit Patient");
-		btn.addActionListener(e -> editPatient());
+		btn.addActionListener(e -> editPatient(btn));
 		return btn;
 	}
-
 
 	private JButton removePatientBtn() {
 		JButton btn = new JButton("Remove Patient");
@@ -324,10 +323,26 @@ public class MainWindow extends JFrame {
 		osig.setEditable(b);
 	};
 
+	private Patient editedPatient() {
+		p = new Patient();
+		
+		p.setFirstName(ofname.getText());
+		p.setLastName(olname.getText());
+		p.setAddress(oaddress.getText());
+		p.setTelephone(ophone.getText());
+		p.setDateOfBirth(odob.getText());
+		p.setPrescription(opresc.getText());
+		p.setPrescriptionReason(oprescreason.getText());
+		p.setSignature(osig.getText());
+		
+		System.out.println("Patient edited");
+		return p;
+	}
 	/*
 	 * DAO CONTROL
 	 */
 	private DataAccesObject dao = null;
+	private Patient p = null;
 
 	public DataAccesObject getDao() {
 		return dao;
@@ -338,7 +353,7 @@ public class MainWindow extends JFrame {
 	}
 
 	private void inputPatient() {
-		Patient p = new Patient();
+		p = new Patient();
 
 		p.setFirstName(fname.getText());
 		p.setLastName(lname.getText());
@@ -355,17 +370,40 @@ public class MainWindow extends JFrame {
 	}
 
 	private void retrievePatient(JButton btn) {
-		Patient p = dao.retrievePatient();
+		p = dao.retrievePatient();
 		populateOutputFields(p);
 		btn.setEnabled(false);
 	}
 
+	/**
+	 * Listener for editing an existing patient
+	 * <p>
+	 * This works by checking if the text on the button equals <i>Edit Patient</i>
+	 * if it does, it'll change is to <i>Save Patient</i> and execute the required
+	 * methods
+	 * </p>
+	 * Conversely, if it the button text equals anything other than <i>Edit
+	 * Patient</i> it'll change it back to that and execute the required methods
+	 * 
+	 * @param btn a JButton initialized with text
+	 */
 	private void editPatient(JButton btn) {
-		btn.setEnabled(false);
-	}
 
-	private void savePatient(JButton btn) {
-		
+		if (btn.getText().equals("Edit Patient")) {
+			// This will be the listener for EDIT patient
+			btn.setText("Save Patient");
+			setPanelsEditable(true);
+			if (p == null) {
+				p = dao.retrievePatient();
+			}
+
+		} else {
+			// This listener for SAVE
+			btn.setText("Edit Patient");
+			setPanelsEditable(false);
+			p = editedPatient();
+			dao.editPatient(dao.objectToDocument(p));
+		}
 	}
 
 	private void removePatient() {
