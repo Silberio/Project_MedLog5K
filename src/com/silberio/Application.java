@@ -14,8 +14,13 @@ public class Application {
 		DataAccesObject dao = DataAccesObject.getInstance();
 		LogSystem sys = LogSystem.getInstance();
 
+		//Sets up a connection to the Mongo server
 		dbControl.establishConnection();
-
+		//Needs implementation = if connection OK proceed - else let user know
+		//Maybe with a pop-up. "plz check mongo is run" reconnect, cancel
+		// check for MongoSocketOpenException
+		
+		
 		dao.setCol(dbControl.getCollection());
 		sys.setDao(dao);
 		sys.setQueueSys(queueSys);
@@ -30,6 +35,7 @@ public class Application {
 		gui.setDao(dao);
 		System.out.println("GUI Initialized");
 		
+		//need to add exception handler for empty patient input
 	}
 
 }

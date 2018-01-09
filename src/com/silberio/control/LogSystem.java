@@ -6,10 +6,28 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.silberio.model.Patient;
 
+/**
+ * Contains control for the whole application services
+ * <p>
+ * This class is created as a singleton instance and contains its' own instance
+ * of a Queue System Controller which is later injected thru getters and
+ * setters.
+ * </p>
+ * It also containes a DBOBject iterator, which also is set with getters and is
+ * to be used globally by the app. The iterator is initialized with information
+ * from a Mongo Database
+ * 
+ * @author silberio_stalone
+ *
+ */
 public class LogSystem {
 
 	private static LogSystem instance = null;
 
+	/**
+	 * Creates a single instance of the class
+	 * @return LogSystem() instance
+	 */
 	public static LogSystem getInstance() {
 		if (instance == null) {
 			instance = new LogSystem();
@@ -50,12 +68,16 @@ public class LogSystem {
 	 */
 	public void populateQueue() {
 		while (iterator.hasNext()) {
-				Patient patient = dao.documentToObject(iterator.next());				
-				queueSys.addPatientToQueue(patient);
-				
-			}
+			Patient patient = dao.documentToObject(iterator.next());
+			queueSys.addPatientToQueue(patient);
+
+		}
 	}
 
+	/**
+	 * Initializes the global iterator with a Mongo database collection object
+	 * @param collection
+	 */
 	public void initIterator(DBCollection collection) {
 		iterator = collection.find().iterator();
 	}

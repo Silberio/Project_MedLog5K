@@ -1,24 +1,22 @@
 package com.silberio.view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.lang.reflect.Field;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
+import javax.swing.Action;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.border.Border;
 
 import com.silberio.control.DataAccesObject;
 import com.silberio.model.Patient;
@@ -34,6 +32,7 @@ public class MainWindow extends JFrame {
 	 */
 	private GridBagLayout grid = new GridBagLayout();
 	private GridBagConstraints gbc = new GridBagConstraints();
+	private boolean isEdit;
 	private static InputField fname, lname, address, dob, phone, presc, sig;
 	private static InputField ofname, olname, oaddress, odob, ophone, opresc, osig;
 	private static JTextArea prescreason, oprescreason;
@@ -135,7 +134,7 @@ public class MainWindow extends JFrame {
 		west.add(new JLabel("Prescription Reason: "), gbc);
 		gbc.gridx = 1;
 		gbc.gridy = 7;
-		west.add(prescreason = new JTextArea(10,15), gbc);
+		west.add(prescreason = new JTextArea(10, 15), gbc);
 
 		gbc.gridx = 0;
 		gbc.gridy = 8;
@@ -222,7 +221,6 @@ public class MainWindow extends JFrame {
 
 		gbc.gridx = 0;
 		gbc.gridy = 10;
-		east.add(editPatientBtn(), gbc);
 
 		gbc.insets = new Insets(10, 1, 15, 20);
 
@@ -266,7 +264,7 @@ public class MainWindow extends JFrame {
 
 	private JButton retrievePatientBtn() {
 		JButton btn = new JButton("Retrieve Patient");
-		btn.addActionListener(e -> retrievePatient());
+		btn.addActionListener(e -> retrievePatient(btn));
 		return btn;
 	}
 
@@ -275,6 +273,7 @@ public class MainWindow extends JFrame {
 		btn.addActionListener(e -> editPatient());
 		return btn;
 	}
+
 
 	private JButton removePatientBtn() {
 		JButton btn = new JButton("Remove Patient");
@@ -299,41 +298,6 @@ public class MainWindow extends JFrame {
 		return pane;
 	}
 
-	/**
-	 * Prescription Reasoning text area element
-	 * 
-	 * @param editable
-	 * @return
-	 */
-	private JTextArea prescReason(JTextArea ta, boolean b) {
-		ta = new JTextArea(10, 15);
-		ta.setLineWrap(true);
-		ta.setWrapStyleWord(true);
-		ta.setEditable(b);
-		Color borderColor = new Color(100, 100, 100);
-		Border border = BorderFactory.createLineBorder(borderColor);
-		ta.setBorder(BorderFactory.createCompoundBorder(border, BorderFactory.createEmptyBorder(10, 10, 10, 10)));
-
-		return ta;
-	}
-
-	/**
-	 * Text area for prescription input
-	 * 
-	 * @return
-	 */
-	private JTextArea prescReason(JTextArea ta) {
-		ta = new JTextArea(10, 15);
-		ta.setLineWrap(true);
-		ta.setWrapStyleWord(true);
-
-		Color borderColor = new Color(100, 100, 100);
-		Border border = BorderFactory.createLineBorder(borderColor);
-		ta.setBorder(BorderFactory.createCompoundBorder(border, BorderFactory.createEmptyBorder(10, 10, 10, 10)));
-
-		return ta;
-	}
-
 	/*
 	 * BSNS LOGIC
 	 */
@@ -348,7 +312,17 @@ public class MainWindow extends JFrame {
 		oprescreason.setText(p.getPrescriptionReason());
 		osig.setText(p.getSignature());
 	}
-	
+
+	private void setPanelsEditable(boolean b) {
+		ofname.setEditable(b);
+		olname.setEditable(b);
+		oaddress.setEditable(b);
+		ophone.setEditable(b);
+		odob.setEditable(b);
+		opresc.setEditable(b);
+		oprescreason.setEditable(b);
+		osig.setEditable(b);
+	};
 
 	/*
 	 * DAO CONTROL
@@ -376,18 +350,22 @@ public class MainWindow extends JFrame {
 		p.setSignature(sig.getText());
 
 		System.out.println(p.getLastName() + " Initialized by " + p.getSignature());
-		
+
 		dao.inputPatient(dao.objectToDocument(p));
 	}
 
-	private void retrievePatient() {
+	private void retrievePatient(JButton btn) {
 		Patient p = dao.retrievePatient();
 		populateOutputFields(p);
+		btn.setEnabled(false);
 	}
 
-	private void editPatient() {
-		dao.editPatient();
+	private void editPatient(JButton btn) {
+		btn.setEnabled(false);
+	}
 
+	private void savePatient(JButton btn) {
+		
 	}
 
 	private void removePatient() {

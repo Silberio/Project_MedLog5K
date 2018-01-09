@@ -39,7 +39,7 @@ public class DataAccesObject implements DataAccesObjectImpl {
 	}
 
 	/**
-	 * Returns a patient objct instantiated with data from  Mongo Document
+	 * Returns a patient object instantiated with data from  Mongo Document
 	 */
 	@Override
 	public Patient documentToObject(DBObject document) {
@@ -53,7 +53,7 @@ public class DataAccesObject implements DataAccesObjectImpl {
 		patient.setTelephone(document.get("phone").toString());
 		patient.setPatientLog(document.get("patient_log").toString());
 		patient.setPrescription(document.get("prescription").toString());
-		patient.setPrescriptionReason(document.get("prescription").toString());
+		patient.setPrescriptionReason(document.get("prescription_reason").toString());
 		patient.setSignature(document.get("signature").toString());
 		
 		return patient;
@@ -84,14 +84,21 @@ public class DataAccesObject implements DataAccesObjectImpl {
 	
 	//implement all these methods
 	
+	/**
+	 * Inputs a new patient into the database
+	 */
 	@Override
 	public void inputPatient(DBObject patient) {
 		col.insert(patient);
 		System.out.println("Patient " +patient.get("last_name") +" inserted");
 	}
 
+	/**
+	 * Retrieves the first patient on the queue
+	 */
 	@Override
 	public Patient retrievePatient() {
+		patient = que.peek();
 		return patient;
 	}
 
