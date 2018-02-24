@@ -38,19 +38,6 @@ public class LogSystem {
 	private Iterator<DBObject> iterator = null;
 
 	/*
-	 * QUEUE SYSTEM CONTROL
-	 */
-	private QueueSysControl queueSys = null;
-
-	public QueueSysControl getQueueSys() {
-		return queueSys;
-	}
-
-	public void setQueueSys(QueueSysControl queueSys) {
-		this.queueSys = queueSys;
-	}
-
-	/*
 	 * DAO CONTROL
 	 */
 	private DataAccesObject dao = null;
@@ -66,14 +53,14 @@ public class LogSystem {
 	/**
 	 * Populates the priority queue with all existing data on DB
 	 */
-	public void populateQueue() {
+	public void populateQueue(QueueSysControl queueSys) {
 		while (iterator.hasNext()) {
 			Patient patient = dao.documentToObject(iterator.next());
-			queueSys.addPatientToQueue(patient);
-
+			queueSys.addPatientToQueue(patient);			
 		}
 	}
 
+	
 	/**
 	 * Initializes the global iterator with a Mongo database collection object
 	 * @param collection
@@ -81,5 +68,13 @@ public class LogSystem {
 	public void initIterator(DBCollection collection) {
 		iterator = collection.find().iterator();
 	}
+	
+	public void initIterator(Iterator<DBObject> iterator) {
+		this.iterator = iterator;
+	}
+
+	public Iterator<DBObject> getIterator() {
+		return iterator;
+	}	
 
 }

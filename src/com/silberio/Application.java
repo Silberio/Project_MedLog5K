@@ -13,7 +13,7 @@ public class Application {
 		QueueSysControl queueSys = QueueSysControl.getInstance();
 		DataAccesObject dao = DataAccesObject.getInstance();
 		LogSystem sys = LogSystem.getInstance();
-
+		
 		//Sets up a connection to the Mongo server
 		dbControl.establishConnection();
 		//Needs implementation = if connection OK proceed - else let user know
@@ -23,16 +23,16 @@ public class Application {
 		
 		dao.setCol(dbControl.getCollection());
 		sys.setDao(dao);
-		sys.setQueueSys(queueSys);
 		System.out.println("LogSys Initialized");
 
-		sys.initIterator(dbControl.getCollection());
-		sys.populateQueue();
+		sys.initIterator(dbControl.getDBIterator());
+		sys.populateQueue(queueSys);
 		dao.setQue(queueSys.getQueue());
 		System.out.println("Queue Populated");
 
 		MainWindow gui = new MainWindow();
 		gui.setDao(dao);
+		gui.populateList(dbControl.getDBIterator());
 		System.out.println("GUI Initialized");
 		
 		//need to add exception handler for empty patient input

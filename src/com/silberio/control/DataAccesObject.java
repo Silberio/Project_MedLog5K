@@ -63,15 +63,15 @@ public class DataAccesObject implements DataAccesObjectImpl {
 	public DBObject objectToDocument(Patient patient) {
 		DBObject document = new BasicDBObject();
 
-		document.put("first_name", patient.getFirstName());
-		document.put("last_name", patient.getLastName());
-		document.put("address", patient.getAddress());
-		document.put("DoB", patient.getDateOfBirth());
-		document.put("phone", patient.getTelephone());
+		document.put("first_name", patient.getFirstName().toLowerCase());
+		document.put("last_name", patient.getLastName().toLowerCase());
+		document.put("address", patient.getAddress().toLowerCase());
+		document.put("DoB", patient.getDateOfBirth().toLowerCase());
+		document.put("phone", patient.getTelephone().toLowerCase());
 		//document.put("patient_log", patient.getPatientLog());
-		document.put("prescription", patient.getPrescription());
-		document.put("prescription_reason", patient.getPrescriptionReason());
-		document.put("signature", patient.getSignature());
+		document.put("prescription", patient.getPrescription().toLowerCase());
+		document.put("prescription_reason", patient.getPrescriptionReason().toLowerCase());
+		document.put("signature", patient.getSignature().toLowerCase());
 
 
 		return document;
@@ -91,7 +91,9 @@ public class DataAccesObject implements DataAccesObjectImpl {
 	@Override
 	public void inputPatient(DBObject patient) {
 		col.insert(patient);
+		que.offer(documentToObject(patient));
 		System.out.println("Patient " +patient.get("last_name") +" inserted");
+		System.out.println(que.toString());
 	}
 
 	/**
@@ -119,6 +121,7 @@ public class DataAccesObject implements DataAccesObjectImpl {
 	@Override
 	public Patient removePatient(Patient query) {
 		col.findAndRemove(objectToDocument(query));
+		
 		que.poll();
 		System.out.println("removed patient: " + query.toString());
 		return null;

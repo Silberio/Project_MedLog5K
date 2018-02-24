@@ -5,6 +5,7 @@ package com.silberio.model;
  * <p>
  * Each field represents information about the patient
  * </p>
+ * 
  * @author bish0p
  *
  */
@@ -16,15 +17,29 @@ public class Patient implements Comparable<Patient> {
 	private String address;
 	private String dateOfBirth;
 	private String telephone;
-	//private String patientLog;
+	// private String patientLog;
 	private String prescription;
 	private String prescriptionReason;
 	private String signature;
-	
+
 	private int prio = 0;
-	
+
 	public Patient() {
 
+	}
+
+	/**
+	 * Creates an empty patient
+	 */
+	public Patient(String placeholder) {
+		this.firstName = placeholder;
+		this.lastName = placeholder;
+		this.address = placeholder;
+		this.dateOfBirth = placeholder;
+		this.telephone = placeholder;
+		this.prescription = placeholder;
+		this.prescriptionReason = placeholder;
+		this.signature = placeholder;
 	}
 
 	/**
@@ -46,11 +61,9 @@ public class Patient implements Comparable<Patient> {
 	 *            telephone
 	 */
 
-	
 	/*
 	 * GETTERS AND SETTERS
 	 */
-
 
 	public String getFirstName() {
 		return firstName;
@@ -92,13 +105,13 @@ public class Patient implements Comparable<Patient> {
 		this.telephone = telephone;
 	}
 
-//	public String getPatientLog() {
-//		return patientLog;
-//	}
-//
-//	public void setPatientLog(String patientLog) {
-//		this.patientLog = patientLog;
-//	}
+	// public String getPatientLog() {
+	// return patientLog;
+	// }
+	//
+	// public void setPatientLog(String patientLog) {
+	// this.patientLog = patientLog;
+	// }
 
 	public String getSignature() {
 		return signature;
@@ -123,7 +136,6 @@ public class Patient implements Comparable<Patient> {
 	public void setPrescriptionReason(String prescriptionReason) {
 		this.prescriptionReason = prescriptionReason;
 	}
-	
 
 	public int getPrio() {
 		return prio;
@@ -132,7 +144,7 @@ public class Patient implements Comparable<Patient> {
 	public void setPrio(int prio) {
 		this.prio = prio;
 	}
-	
+
 	public String getId() {
 		return id;
 	}
@@ -146,19 +158,19 @@ public class Patient implements Comparable<Patient> {
 	 */
 	@Override
 	public String toString() {
-		String str = "Patient: " + lastName + ", " + firstName + ". Signed by: " + signature;
+		String str = dateOfBirth + ": " + lastName.substring(0, 1).toUpperCase() + lastName.substring(1) + ", "
+				+ firstName.substring(0, 1).toUpperCase() + firstName.substring(1);
 		return str;
 	}
 
 	@Override
 	public int compareTo(Patient o) {
-		if(this.equals(o)) {
+		if (this.equals(o)) {
 			return 0;
-		} else if(getPrio() > o.getPrio()) {
+		} else if (getPrio() > o.getPrio()) {
 			return 1;
 		} else
 			return -1;
 	}
-
 
 }

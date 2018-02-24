@@ -1,5 +1,7 @@
 package com.silberio.control;
 
+import java.util.Iterator;
+
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
@@ -51,6 +53,10 @@ public class RepositoryController {
 		return col;
 	}
 	
+	public Iterator<DBObject> getDBIterator() {
+		Iterator<DBObject> iterator = col.find().iterator();
+		return iterator;
+	}
 	/**
 	 * Inserts a patient into the database collection
 	 * @param patient the POJO to be inserted

@@ -1,24 +1,30 @@
 package com.silberio.view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Iterator;
 
-import javax.swing.Action;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
+import com.mongodb.DBObject;
 import com.silberio.control.DataAccesObject;
+import com.silberio.control.SearchControl;
 import com.silberio.model.Patient;
 
 public class MainWindow extends JFrame {
@@ -32,10 +38,12 @@ public class MainWindow extends JFrame {
 	 */
 	private GridBagLayout grid = new GridBagLayout();
 	private GridBagConstraints gbc = new GridBagConstraints();
+	private	DefaultListModel<String> model = new DefaultListModel<String>();
 	private static InputField fname, lname, address, dob, phone, presc, sig;
 	private static InputField ofname, olname, oaddress, odob, ophone, opresc, osig;
 	private static JTextArea prescreason, oprescreason;
-
+	private static JTextField textBar = new JTextField(30);
+	
 	private DataAccesObject dao = null;
 	private Patient p, u;
 	
@@ -43,9 +51,9 @@ public class MainWindow extends JFrame {
 		String title = "MedLog System 5000 : : by SilbTech";
 		this.setTitle(title);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setSize(1100, 650);
+		this.setSize(1500, 950);
 		this.setLocationRelativeTo(null);
-		this.setResizable(false);
+		this.setResizable(true);
 
 		this.add(container());
 
@@ -65,8 +73,9 @@ public class MainWindow extends JFrame {
 		container.add(west(), BorderLayout.WEST);
 		container.add(east(), BorderLayout.EAST);
 		container.add(center(), BorderLayout.CENTER);
+		container.add(south(), BorderLayout.SOUTH);
+		
 
-		// center.setBackground(new Color(232, 192, 132));
 
 		return container;
 	}
@@ -87,8 +96,9 @@ public class MainWindow extends JFrame {
 	private JPanel west() {
 		JPanel west = new JPanel();
 
+		west.setBackground(new MedLogTan());
 		west.setLayout(grid);
-
+		
 		gbc.insets = new Insets(5, 1, 2, 2);
 
 		gbc.fill = GridBagConstraints.BOTH;
@@ -144,7 +154,8 @@ public class MainWindow extends JFrame {
 		gbc.gridx = 1;
 		gbc.gridy = 8;
 		west.add(sig = new InputField("signature"), gbc);
-
+		
+	
 		gbc.gridx = 0;
 		gbc.gridy = 9;
 		west.add(new JCheckBox("Set Priority"), gbc);
@@ -166,7 +177,7 @@ public class MainWindow extends JFrame {
 	 */
 	private JPanel east() {
 		JPanel east = new JPanel();
-
+		east.setBackground(new MedLogTan());
 		east.setLayout(grid);
 
 		gbc.insets = new Insets(5, 1, 2, 20);
@@ -194,7 +205,7 @@ public class MainWindow extends JFrame {
 		gbc.gridy = 3;
 		east.add(odob = new InputField("dob"), gbc);
 		odob.setEditable(false);
-
+		
 		gbc.gridx = 0;
 		gbc.gridy = 4;
 		east.add(ophone = new InputField("phone"), gbc);
@@ -204,23 +215,21 @@ public class MainWindow extends JFrame {
 		gbc.gridy = 5;
 		east.add(opresc = new InputField("prescription"), gbc);
 		opresc.setEditable(false);
-
+		
 		gbc.gridx = 0;
 		gbc.gridy = 7;
 		east.add(oprescreason = new JTextArea(10, 15), gbc);
 		oprescreason.setEditable(false);
-
+		
 		gbc.gridx = 0;
 		gbc.gridy = 8;
 		east.add(osig = new InputField("signature"), gbc);
 		osig.setEditable(false);
 
 		gbc.insets = new Insets(10, 1, 2, 20);
-
 		gbc.gridx = 0;
 		gbc.gridy = 9;
 		east.add(retrievePatientBtn(), gbc);
-
 		gbc.insets = new Insets(10, 1, 15, 20);
 		gbc.gridx = 0;
 		gbc.gridy = 10;
@@ -229,6 +238,7 @@ public class MainWindow extends JFrame {
 		return east;
 	}
 
+
 	/**
 	 * Center panel with list
 	 * 
@@ -236,18 +246,37 @@ public class MainWindow extends JFrame {
 	 */
 	private JPanel center() {
 		JPanel center = new JPanel();
-
+		center.setBackground(new MedLogTan());
 		center.setLayout(grid);
-
+		
 		gbc.insets = new Insets(5, 1, 2, 20);
-
 		gbc.fill = GridBagConstraints.BOTH;
-
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		center.add(queueList(), gbc);
 
 		return center;
+	}
+	
+	/**
+	 * Search bar panel
+	 * @return
+	 */
+	private JPanel south() {
+		JPanel south = new JPanel();
+		south.setBackground(new MedLogTan());
+		south.setLayout(grid);
+		
+		gbc.insets= new Insets(2, 4, 5, 4);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		
+		south.add(searchBar(), gbc);
+		gbc.gridx = 1;
+		gbc.gridy = 0;
+		south.add(searchPatientBtn(), gbc);
+		return south;
 	}
 
 	/*
@@ -271,6 +300,12 @@ public class MainWindow extends JFrame {
 		btn.addActionListener(e -> editPatient(btn));
 		return btn;
 	}
+	
+	private JButton searchPatientBtn() {
+		JButton btn = new JButton("Search Patient");
+		btn.addActionListener(e -> searchPatient(btn));
+		return btn;
+	}
 
 	/*
 	 * ELEMENTS
@@ -281,18 +316,34 @@ public class MainWindow extends JFrame {
 	 * 
 	 * @return
 	 */
+	
+	private JList<String> list = new JList<String>(model);
+	
 	private JScrollPane queueList() {
-		DefaultListModel<Patient> model = new DefaultListModel<Patient>();
-		JList<Patient> list = new JList<Patient>(model);
-		JScrollPane pane = new JScrollPane(list);
-
+		model.addElement("Patients:");
+		JScrollPane pane = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		pane.setPreferredSize(new Dimension(400, 300));
 		return pane;
 	}
+	
+	private JTextField searchBar() {
+		return textBar;
+	}
+	
+
 
 	/*
 	 * BSNS LOGIC
 	 */
-
+	
+	public void populateList(Iterator<DBObject> iterator) {
+		while (iterator.hasNext()) {
+			Patient p = dao.documentToObject(iterator.next());
+			// model.addElement(p.getDateOfBirth()  + ": " + p.getLastName() + ", " + p.getFirstName());			
+			model.addElement(p.toString());
+		}
+	}
+	
 	/**
 	 * Sets data from retrieved patient into the text fields
 	 * @param p the patient object to get data from
@@ -352,24 +403,6 @@ public class MainWindow extends JFrame {
 		oprescreason.setText("");
 		osig.setText("");
 	}
-	
-	public String populateList() {
-		String patient = "patient";
-		
-		return patient;
-	}
-	/*
-	 * DAO CONTROL
-	 */
-
-
-	public DataAccesObject getDao() {
-		return dao;
-	}
-
-	public void setDao(DataAccesObject dao) {
-		this.dao = dao;
-	}
 
 	/**
 	 * Inserts a new patient into the DB Collection
@@ -385,8 +418,10 @@ public class MainWindow extends JFrame {
 		p.setPrescription(presc.getText());
 		p.setPrescriptionReason(prescreason.getText());
 		p.setSignature(sig.getText());
-
-		System.out.println(p.getLastName() + " Initialized by " + p.getSignature());
+		
+//		model.addElement(p.getDateOfBirth()  + ": " + p.getLastName().substring(0, 1).toUpperCase() + p.getLastName().substring(1) + ", " + p.getFirstName());
+		model.addElement(p.toString());
+		System.out.println(p.getLastName() + " Initialized by Dr. " + p.getSignature());
 
 		dao.inputPatient(dao.objectToDocument(p));
 	}
@@ -401,7 +436,8 @@ public class MainWindow extends JFrame {
 			populateOutputFields(p);
 			btn.setText("Remove Patient");
 		} else {
-			dao.removePatient(p);
+
+			//dao.removePatient(p);
 			btn.setText("Retrieve Patient");
 			clearOutputFields();
 		}
@@ -439,4 +475,43 @@ public class MainWindow extends JFrame {
 			System.out.println("Patient succesfully edited");
 		}
 	}
+
+	/**
+	 * Search Button handler
+	 * @return
+	 */
+	private void searchPatient(JButton btn) {
+		SearchControl search = new SearchControl(dao);
+		String str = searchBar().getText();
+		search.searchFunction(str);
+		if(search.getPatient().getFirstName().equals("EMPTY")) {
+			JOptionPane.showMessageDialog(null, "Patient NOT Found!");
+			System.out.println("Patient not found");
+		} else
+			JOptionPane.showMessageDialog(null, patientFoundMessage(search.getPatient()));
+	}
+	
+	public String patientFoundMessage(Patient p) {
+		String capFname, capLname, capDrName;
+		capFname = p.getFirstName().substring(0, 1).toUpperCase() + p.getFirstName().substring(1);
+		capLname = p.getLastName().substring(0, 1).toUpperCase() + p.getLastName().substring(1);
+		capDrName = "Dr. " + p.getSignature().substring(0, 1).toUpperCase() + p.getSignature().substring(1) + ", M.D.";
+		
+		return "Patient:\n" + capFname + " " + capLname + "\n Under supervision of:\n" + capDrName;
+	}
+
+	
+	/*
+	 * GTTRS & STTRS
+	 */
+
+	public DataAccesObject getDao() {
+		return dao;
+	}
+
+	public void setDao(DataAccesObject dao) {
+		this.dao = dao;
+	}
+
+	
 }

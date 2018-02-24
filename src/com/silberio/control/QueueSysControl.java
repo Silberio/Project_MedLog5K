@@ -14,7 +14,7 @@ public class QueueSysControl {
 		} return instance;
 	}
 	
-	private PriorityQueue<Patient> queue = new PriorityQueue();
+	private PriorityQueue<Patient> queue = new PriorityQueue<Patient>();
 	
 	
 	public void addPatientToQueue(Patient patient) {
